@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <nooe_payments>
+                <active>1</active>
+                <model>Nooe\M2Connector\Model\Payment\NooePayments</model>
+                <order_status>pending</order_status>
+                <title>Nooe Payments</title>
+                <allowspecific>0</allowspecific>
+                <group>Offline</group>
+                <sort_order>100</sort_order>
+            </nooe_payments>
+        </payment>
+        <carriers>
+            <nooe_shipping>
+                <active>1</active>
+                <title>Nooe Shipping</title>
+                <name>Nooe Shipping Method</name>
+                <shipping_cost>0</shipping_cost>
+                <sallowspecific>0</sallowspecific>
+                <sort_order>100</sort_order>
+                <model>Nooe\M2Connector\Model\Shipping\NooeShipping</model>
+            </nooe_shipping>
+        </carriers>
+    </default>
+</config>
