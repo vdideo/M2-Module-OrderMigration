@@ -52,8 +52,7 @@ class Sync extends Command
         \Magento\Framework\App\State $state,
         \Nooe\M2Connector\Service\OrderService $orderService
         //\Nooe\M2Connector\Model\Order $orderRepository
-    )
-    {
+    ) {
         $this->_storeManagerInterface = $storeManagerInterface;
         $this->_customerInterfaceFactory = $customerInterfaceFactory;
         $this->_encryptorInterface = $encryptorInterface;
@@ -83,10 +82,10 @@ class Sync extends Command
     protected function configure()
     {
         $this->setName('nooe:sync')
-          ->setDescription('Sync')
-          ->addOption('action', "action", InputOption::VALUE_OPTIONAL, "Specific Action")
-          ->addOption('increment', "increment", InputOption::VALUE_OPTIONAL, "Specific Increment Id")
-          ->addOption('store', "store", InputOption::VALUE_OPTIONAL, "Specific Store Id");
+            ->setDescription('Sync')
+            ->addOption('action', "action", InputOption::VALUE_OPTIONAL, "Specific Action")
+            ->addOption('increment', "increment", InputOption::VALUE_OPTIONAL, "Specific Increment Id")
+            ->addOption('store', "store", InputOption::VALUE_OPTIONAL, "Specific Store Id");
         parent::configure();
     }
 
@@ -116,9 +115,8 @@ class Sync extends Command
             switch ($action) {
 
                 case 'order':
-                    
 
-                    // $orders = $this->orderService->sync($increment, $store);
+                    $this->orderService->sync($increment, $store);
 
                     // if (count((Array)$orders)) {
                     //     foreach ($orders as $order) {
@@ -134,17 +132,14 @@ class Sync extends Command
 
                     //             //TODO: update data e increment nei parametri del modulo
                     //         }
-                    
+
                     //     } catch (Exception $e) {
                     //         var_dump($e->getMessage());
                     //     }
                     // } 
-                    
-                break;
 
+                    break;
             }
-
-            
         } catch (\InvalidArgumentException $e) {
             $output->writeln('<error>Invalid argument.</error>');
         }

@@ -22,6 +22,13 @@ class OrderService
 
     public function sync($incrementId = null, $storeId = null)
     {
-        $this->order->getList($incrementId, $storeId);
+        $orders = $this->order->getList($incrementId, $storeId);
+
+        // TODO sync logic
+        if (count((array)$orders)) {
+            foreach ($orders as $order) {
+                var_dump($order->increment_id);
+            }
+        }
     }
 }

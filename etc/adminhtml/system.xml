@@ -20,7 +20,6 @@
                 <!-- //TODO Create datetime field -->
                 <field id="start_date" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Start Date</label>
-                    <!-- <source_model>Magento\Config\Model\Config\Source\Yesno</source_model> -->
                 </field>
                 <field id="increment_id" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Order Increment Id</label>
@@ -50,7 +49,8 @@
                     <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Payment from Specific Countries</label><source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <label>Payment from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
                 <field id="model"></field>
@@ -70,7 +70,7 @@
                 <field id="name" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Method Name</label>
                 </field>
-                <field id="shipping_cost" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" >
+                <field id="shipping_cost" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Shipping Cost</label>
                     <validate>validate-number validate-zero-or-greater</validate>
                 </field>
