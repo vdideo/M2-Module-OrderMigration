@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
-    <group id="default">
+    <group id="nooe_m2connector_base">
         <job name="nooe_connector_sync_orders" instance="Nooe\M2Connector\Cron\SyncOrders" method="execute">
             <schedule>*/15 * * * *</schedule>
         </job>
