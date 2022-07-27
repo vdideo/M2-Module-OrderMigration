@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @category    Nooe
+ * @package     Nooe_M2_Connector
+ * @author      Tun2U Team <dev@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
+ * @license     https://opensource.org/licenses/gpl-3.0.html  GNU General Public License (GPL 3.0)
+ */
+
 namespace Nooe\M2Connector\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -12,136 +20,206 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Sync extends Command
 {
 
-    protected $_storeManagerInterface;
-    protected $_customerInterfaceFactory;
-    protected $_encryptorInterface;
-    protected $_customerRepositoryInterface;
-    protected $_customerFactory;
-    protected $_addressDataFactory;
-    protected $_addressRepository;
+	/**
+	 * @var \Magento\Store\Model\StoreManagerInterface
+	 */
+	protected $_storeManagerInterface;
 
-    protected $_orderRepository;
+	/**
+	 * @var \Magento\Customer\Api\Data\CustomerInterfaceFactory
+	 */
+	protected $_customerInterfaceFactory;
 
-    protected $_searchCriteriaBuilder;
+	/**
+	 * @var \Magento\Framework\Encryption\EncryptorInterface
+	 */
+	protected $_encryptorInterface;
 
-    protected $_filterBuilder;
+	/**
+	 * @var \Magento\Customer\Api\CustomerRepositoryInterface
+	 */
+	protected $_customerRepositoryInterface;
 
-    private $stdTimezone;
+	/**
+	 * @var \Magento\Customer\Model\CustomerFactory
+	 */
+	protected $_customerFactory;
 
-    private $directoryList;
+	/**
+	 * @var \Magento\Customer\Api\AddressRepositoryInterface
+	 */
+	protected $_addressRepository;
 
-    private $state;
+	/**
+	 * @var \Magento\Customer\Api\Data\AddressInterfaceFactory
+	 */
+	protected $_addressDataFactory;
 
-    private $orderService;
+	/**
+	 * @var \Magento\Framework\Api\SearchCriteriaBuilder 
+	 */
+	protected $_searchCriteriaBuilder;
 
-    //private $orderRepository;
+	/**
+	 * @var \Magento\Framework\Api\FilterBuilder
+	 */
+	protected $_filterBuilder;
 
-    public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManagerInterface,
-        \Magento\Customer\Api\Data\CustomerInterfaceFactory $customerInterfaceFactory,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptorInterface,
-        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepositoryInterface,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
-        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
-        \Magento\Customer\Api\Data\AddressInterfaceFactory $addressDataFactory,
-        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
-        \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Framework\Stdlib\DateTime\Timezone $stdTimezone,
-        \Magento\Framework\App\State $state,
-        \Nooe\M2Connector\Service\OrderService $orderService
-        //\Nooe\M2Connector\Model\Order $orderRepository
-    ) {
-        $this->_storeManagerInterface = $storeManagerInterface;
-        $this->_customerInterfaceFactory = $customerInterfaceFactory;
-        $this->_encryptorInterface = $encryptorInterface;
-        $this->_customerRepositoryInterface = $customerRepositoryInterface;
-        $this->_customerFactory = $customerFactory;
-        $this->directoryList = $directoryList;
-        $this->_addressRepository = $addressRepository;
-        $this->_addressDataFactory = $addressDataFactory;
-        $this->_orderRepository = $orderRepository;
-        $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->_filterBuilder = $filterBuilder;
-        $this->stdTimezone = $stdTimezone;
-        $this->state = $state;
-        $this->orderService = $orderService;
-        //$this->orderRepository = $orderRepository;
-        parent::__construct();
-    }
+	/**
+	 * @var \Magento\Framework\App\State
+	 */
+	private $state;
 
+	/**
+	 * @var \Magento\Framework\Registry
+	 */
+	private $registry;
 
-    private function printHeading()
-    {
-        ob_start();
-
-        echo "Sync\n\n";
-    }
-
-    protected function configure()
-    {
-        $this->setName('nooe:sync')
-            ->setDescription('Sync')
-            ->addOption('action', "action", InputOption::VALUE_OPTIONAL, "Specific Action")
-            ->addOption('increment', "increment", InputOption::VALUE_OPTIONAL, "Specific Increment Id")
-            ->addOption('store', "store", InputOption::VALUE_OPTIONAL, "Specific Store Id");
-        parent::configure();
-    }
+	/**
+	 * @var orderService
+	 */
+	private $orderService;
 
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $output->writeln($this->printHeading());
+	public function __construct(
+		\Magento\Store\Model\StoreManagerInterface $storeManagerInterface,
+		\Magento\Customer\Api\Data\CustomerInterfaceFactory $customerInterfaceFactory,
+		\Magento\Framework\Encryption\EncryptorInterface $encryptorInterface,
+		\Magento\Customer\Api\CustomerRepositoryInterface $customerRepositoryInterface,
+		\Magento\Customer\Model\CustomerFactory $customerFactory,
+		\Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+		\Magento\Customer\Api\Data\AddressInterfaceFactory $addressDataFactory,
+		\Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+		\Magento\Framework\Api\FilterBuilder $filterBuilder,
+		\Magento\Framework\App\State $state,
+		\Magento\Framework\Registry $registry,
+		\Nooe\M2Connector\Service\OrderService $orderService
+	) {
+		$state->setAreaCode('adminhtml');
+		$registry->register('isSecureArea', true);
 
-        $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
+		$this->_storeManagerInterface = $storeManagerInterface;
+		$this->_customerInterfaceFactory = $customerInterfaceFactory;
+		$this->_encryptorInterface = $encryptorInterface;
+		$this->_customerRepositoryInterface = $customerRepositoryInterface;
+		$this->_customerFactory = $customerFactory;
+		$this->_addressRepository = $addressRepository;
+		$this->_addressDataFactory = $addressDataFactory;
+		$this->_searchCriteriaBuilder = $searchCriteriaBuilder;
+		$this->_filterBuilder = $filterBuilder;
+		$this->state = $state;
+		$this->registry = $registry;
+		$this->orderService = $orderService;
+		parent::__construct();
+	}
 
-        $increment = null;
-        $store = null;
 
-        try {
-            if ($input->getOption('action')) {
-                $action = $input->getOption('action');
-            }
+	private function printHeading()
+	{
+		$version = $this->moduleResource->getDbVersion('Nooe_M2Connector');
 
-            if ($input->getOption('increment')) {
-                $increment = $input->getOption('increment');
-            }
+		echo "  _   _  ___   ___  _____    ____ ___  _   _ _   _ _____ ____ _____ ___  ____  ";
+		echo " | \ | |/ _ \ / _ \| ____|  / ___/ _ \| \ | | \ | | ____/ ___|_   _/ _ \|  _ \ ";
+		echo " |  \| | | | | | | |  _|   | |  | | | |  \| |  \| |  _|| |     | || | | | |_) |";
+		echo " | |\  | |_| | |_| | |___  | |__| |_| | |\  | |\  | |__| |___  | || |_| |  _ < ";
+		echo " |_| \_|\___/ \___/|_____|  \____\___/|_| \_|_| \_|_____\____| |_| \___/|_| \_\\";
+		echo "                                                                               v" . $version . "\n";
+		echo "\n\n\n";
 
-            if ($input->getOption('store')) {
-                $store = $input->getOption('store');
-            }
+		echo "Sync\n\n";
+	}
 
-            switch ($action) {
+	private function show_status($done, $total, $size = 30)
+	{
+		static $start_time;
 
-                case 'order':
+		// if we go over our bound, just ignore it
+		if ($done > $total) {
+			return;
+		}
 
-                    $this->orderService->sync($increment, $store);
+		if (empty($start_time)) {
+			$start_time = time();
+		}
+		$now = time();
 
-                    // if (count((Array)$orders)) {
-                    //     foreach ($orders as $order) {
+		$perc = (float)($done / $total);
 
-                    //     var_dump($order);
+		$bar = floor($perc * $size);
 
-                    //     try {
-                    //         $orderId = $this->orderRepository->create($order);
+		$status_bar = "\r[";
+		$status_bar .= str_repeat("=", $bar);
+		if ($bar < $size) {
+			$status_bar .= ">";
+			$status_bar .= str_repeat(" ", $size - $bar);
+		} else {
+			$status_bar .= "=";
+		}
 
-                    //         if ($orderId) {
-                    //             $createdAt = $this->stdTimezone->date(new \DateTime($order->getCreatedAt()))->format('Y-m-d H:i:s');
-                    //             $incrementId = $order->getIncrementId();
+		$disp = number_format($perc * 100, 0);
 
-                    //             //TODO: update data e increment nei parametri del modulo
-                    //         }
+		$status_bar .= "] $disp%  $done/$total";
 
-                    //     } catch (Exception $e) {
-                    //         var_dump($e->getMessage());
-                    //     }
-                    // }
+		$rate = ($now - $start_time) / $done;
+		$left = $total - $done;
+		$eta = round($rate * $left, 2);
 
-                    break;
-            }
-        } catch (\InvalidArgumentException $e) {
-            $output->writeln('<error>Invalid argument.</error>');
-        }
-    }
+		$elapsed = $now - $start_time;
+
+		$status_bar .= " remaining: " . number_format($eta) . " sec.  elapsed: " . number_format($elapsed) . " sec.";
+
+		echo "$status_bar  ";
+
+		flush();
+
+		// when done, send a newline
+		if ($done == $total) {
+			echo "\n\n\n\n";
+		}
+	}
+
+	protected function configure()
+	{
+		$this->setName('nooe:sync')
+			->setDescription('Sync')
+			->addOption('action', "action", InputOption::VALUE_OPTIONAL, "Specific Action")
+			->addOption('increment', "increment", InputOption::VALUE_OPTIONAL, "Specific Increment Id")
+			->addOption('store', "store", InputOption::VALUE_OPTIONAL, "Specific Store Id");
+		parent::configure();
+	}
+
+
+	protected function execute(InputInterface $input, OutputInterface $output)
+	{
+		$output->writeln($this->printHeading());
+
+		$this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
+
+		$increment = null;
+		$store = null;
+
+		try {
+			if ($input->getOption('action')) {
+				$action = $input->getOption('action');
+			}
+
+			if ($input->getOption('increment')) {
+				$increment = $input->getOption('increment');
+			}
+
+			if ($input->getOption('store')) {
+				$store = $input->getOption('store');
+			}
+
+			switch ($action) {
+
+				case 'order':
+
+					$this->orderService->sync($increment, $store);
+					break;
+			}
+		} catch (\InvalidArgumentException $e) {
+			$output->writeln('<error>Invalid argument.</error>');
+		}
+	}
 }

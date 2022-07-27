@@ -1,13 +1,22 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Nooe
+ * @package     Nooe_M2_Connector
+ * @author      Tun2U Team <dev@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
+ * @license     https://opensource.org/licenses/gpl-3.0.html  GNU General Public License (GPL 3.0)
+ */
+-->
 <payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/payment.xsd">
-    <groups>
-        <group id="offline">
-            <label>Offline Payment Methods</label>
-        </group>
-    </groups>
-    <methods>
-        <method name="nooe_payments">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-    </methods>
+	<groups>
+		<group id="offline">
+			<label>Offline Payment Methods</label>
+		</group>
+	</groups>
+	<methods>
+		<method name="nooe_payments">
+			<allow_multiple_address>1</allow_multiple_address>
+		</method>
+	</methods>
 </payment>
