@@ -13,24 +13,21 @@
   <img src="https://nooestores.com/assets/images/visore.png">
 </p>
 
-The first Phygital Storein the world
-The shopping experience has never been so engaging
+The first Phygital Store in the world. The shopping experience has never been so engaging.
 
 ## Plugin installation
 
-Follow the instruction below if you want to install NOOE for Magento 2 using Git.
+Follow the instruction below if you want to install NOOE for Magento 2 using Git or Composer.
 
 1.A) Clone the git repository in the Magento 2 `app/code` folder using:
 
     git clone git@github.com:Tun2U/Nooe-M2Connector.git Nooe/Connector
 
-Follow the instruction below if you want to install NOOE for Magento 2 using Composer.
+In case you wish to contribute to the plugin, fork the `dev` branch rather than cloning it, and create a pull request via Github. For further information please read the section "Become a contributor" of this document.
 
 1.B) Connect via SSH and run the following commands
 
     composer require nooe/module-m2-connector
-
-In case you wish to contribute to the plugin, fork the `dev` branch rather than cloning it, and create a pull request via Github. For further information please read the section "Become a contributor" of this document.
 
 2.) Set the correct directory permissions:
 
