@@ -10,7 +10,7 @@
 ## Overview
 
 <p align="center">
-  <img src="https://nooestores.com/assets/images/visore.jpg">
+  <img src="https://nooestores.com/assets/images/visore.png">
 </p>
 
 The first Phygital Storein the world
