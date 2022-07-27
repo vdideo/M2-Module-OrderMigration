@@ -11,4 +11,17 @@
     <type name="Magento\Shipping\Model\Shipping">
         <plugin disabled="false" name="Nooe_M2_Connector_Model_Shipping" sortOrder="10" type="Nooe\M2Connector\Plugin\ApplyShipping"/>
     </type>
+    <type name="Nooe\M2Connector\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Nooe\M2Connector\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">NOOELogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Nooe\M2Connector\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

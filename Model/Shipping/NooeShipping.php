@@ -58,13 +58,14 @@ class NooeShipping extends AbstractCarrier implements CarrierInterface
      */
     private function isFreeShippingRequired(RateRequest $request): bool
     {
-        $minSubtotal = $request->getPackageValueWithDiscount();
+        return true;
+       /* $minSubtotal = $request->getPackageValueWithDiscount();
         if ($request->getBaseSubtotalWithDiscountInclTax()
             && $this->getConfigFlag('tax_including')) {
             $minSubtotal = $request->getBaseSubtotalWithDiscountInclTax();
         }
 
-        return $minSubtotal >= $this->getConfigData('free_shipping_subtotal');
+        return $minSubtotal >= $this->getConfigData('free_shipping_subtotal');*/
     }
 
     /**

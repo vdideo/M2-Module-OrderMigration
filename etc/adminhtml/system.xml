@@ -17,13 +17,26 @@
                 <field id="store_code" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Store Code</label>
                 </field>
-                <field id="start_date" translate="label" type="date" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="order_prefix" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Prefix</label>
+                </field>
+                <field id="start_date" translate="label" type="date" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Start Date</label>
                     <frontend_model>Nooe\M2Connector\Model\Elements\DateTime</frontend_model>
                 </field>
-                <field id="increment_id" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="increment_id" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Increment Id</label>
                     <frontend_model>Nooe\M2Connector\Model\Elements\Increment</frontend_model>
+                </field>
+                <field id="order_id" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Id</label>
+                    <validate>validate-number</validate>
+                    <frontend_model>Nooe\M2Connector\Model\Elements\Increment</frontend_model>
+                </field>
+                 <field id="debug_mode" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Debug mode</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Se abilitato verranno mostrati i log dentro var/log/nooe_connector.log</comment>
                 </field>
             </group>
         </section>

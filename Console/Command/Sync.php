@@ -76,7 +76,7 @@ class Sync extends Command
     {
         ob_start();
 
-        echo 'Sync';
+        echo "Sync\n\n";
     }
 
     protected function configure()
@@ -128,7 +128,7 @@ class Sync extends Command
 
                     //         if ($orderId) {
                     //             $createdAt = $this->stdTimezone->date(new \DateTime($order->getCreatedAt()))->format('Y-m-d H:i:s');
-                    //             $incrementId = $order->getIncrementId(); 
+                    //             $incrementId = $order->getIncrementId();
 
                     //             //TODO: update data e increment nei parametri del modulo
                     //         }
@@ -136,7 +136,7 @@ class Sync extends Command
                     //     } catch (Exception $e) {
                     //         var_dump($e->getMessage());
                     //     }
-                    // } 
+                    // }
 
                     break;
             }
