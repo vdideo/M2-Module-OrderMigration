@@ -4,11 +4,6 @@ namespace Nooe\M2Connector\Cron;
 
 class SyncOrders
 {
-    /**
-     * @var \Nooe\M2Connector\Helper\Data
-     */
-    protected $helperData;
-
      /**
      * @var \Nooe\M2Connector\Service\OrderService
      */
@@ -18,11 +13,9 @@ class SyncOrders
      * @param \Nooe\M2Connector\Service\OrderService $orderService
      */
     public function __construct(
-        \Nooe\M2Connector\Helper\Data $helperData,
         \Nooe\M2Connector\Service\OrderService $orderService 
     ) {
         
-        $this->helperData = $helperData;
         $this->orderService = $orderService;
     }
 
@@ -31,8 +24,6 @@ class SyncOrders
      */
     public function execute()
     {
-        $increment = $this->helperData->getIncrementId();
-        $storeCode = $this->helperData->getStoreCode();
-        $this->orderService->sync($increment, $storeCode);
+        $this->orderService->sync();
     }
 }
