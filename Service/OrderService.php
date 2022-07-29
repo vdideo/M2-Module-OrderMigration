@@ -48,22 +48,32 @@ class OrderService
 					foreach ($order->items as $item) {
 						$product = $this->productFactory->create();
 
-						// controllo prima se esiste gia' un prodotto con questo sku
-						$productId = $product->getIdBySku($item->sku);
+                        // check if product exist
+                        $productId = $product->getIdBySku($item->sku);
 
-						// TODO verificare se quantita' è disponibile e status inventario è disponibile
-						// TODO se non c'è loggare
+                        if ($productId) {
+                            // check if stock is available
+                            $product->load($productId);
+                            $stockItem = $product->getExtensionAttributes()->getStockItem();
 
-						if ($productId) {
-							$cartItem['product_id'] = $productId;
-							$cartItem['qty'] = $item->qty_ordered;
-							$cartItem['price'] = $item->row_total_incl_tax;
-							$items[] = $cartItem;
-						} else {
-							// todo sku non esiste, segnalare errore
-							$this->logger->error("ORDER: " . $order->increment_id . " - Lo SKU " . $item->sku . " non esiste");
-						}
-					}
+                            if (!empty($stockItem)) {
+                                if (!$stockItem->getIsInStock() || $stockItem->getQty() < $item->qty_ordered) {
+                                    $this->logger->error("ORDER: " . $order->increment_id . " - quantità non disponibile per lo SKU " . $item->sku);
+                                    die();
+                                } else {
+                                    $cartItem['product_id'] = $productId;
+                                    $cartItem['qty'] = $item->qty_ordered;
+                                    $cartItem['price'] = $item->row_total_incl_tax;
+                                    $items[] = $cartItem;
+                                }
+                            } else {
+                                $this->logger->error("ORDER: " . $order->increment_id . " - impossibile verificare la quantità per lo SKU " . $item->sku);
+                            }
+                        } else {
+                            $this->logger->error("ORDER: " . $order->increment_id . " - Lo SKU " . $item->sku . " non esiste");
+                            die();
+                        }
+                    }
 
 					$address = $order->extension_attributes->shipping_assignments[0]->shipping->address;
 
@@ -79,7 +89,7 @@ class OrderService
 							'region' => isset($address->region) ? $address->region : '',
 							'postcode' => $address->postcode,
 							'telephone' => $address->telephone,
-							'save_in_address_book' => 0 // TODO lo devo salvare?
+							'save_in_address_book' => 0
 						],
 						'increment_id' => $order->increment_id,
 						'order_id' => $order->entity_id,
@@ -90,10 +100,7 @@ class OrderService
 					$result = $this->order->create($localOrder); // TODO gestire eventuali errori
 				} catch (\Exception $e) {
 					$this->logger->error("ORDER: " . $order->increment_id . " - " . $e->getMessage());
-					//                    echo "Errore ".$key."\n";
-					//                    echo $e->getMessage()."\n\n";
-					//                    var_dump($order->extension_attributes->shipping_assignments[0]->shipping->address);
-					//                    echo "\n\n";
+                    die();
 				}
 			}
 		}

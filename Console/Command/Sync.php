@@ -80,8 +80,11 @@ class Sync extends Command
 	 */
 	private $orderService;
 
+    protected $moduleResource;
+
 
 	public function __construct(
+        \Magento\Framework\Module\ResourceInterface $moduleResource,
 		\Magento\Store\Model\StoreManagerInterface $storeManagerInterface,
 		\Magento\Customer\Api\Data\CustomerInterfaceFactory $customerInterfaceFactory,
 		\Magento\Framework\Encryption\EncryptorInterface $encryptorInterface,
@@ -98,6 +101,7 @@ class Sync extends Command
 		$state->setAreaCode('adminhtml');
 		$registry->register('isSecureArea', true);
 
+        $this->moduleResource = $moduleResource;
 		$this->_storeManagerInterface = $storeManagerInterface;
 		$this->_customerInterfaceFactory = $customerInterfaceFactory;
 		$this->_encryptorInterface = $encryptorInterface;
@@ -192,8 +196,6 @@ class Sync extends Command
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		$output->writeln($this->printHeading());
-
-		$this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
 
 		$increment = null;
 		$store = null;
