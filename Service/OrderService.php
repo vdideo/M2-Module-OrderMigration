@@ -94,7 +94,8 @@ class OrderService
 						'increment_id' => $order->increment_id,
 						'order_id' => $order->entity_id,
 						'order_date' => $order->created_at,
-						'items' => $items
+						'items' => $items,
+                        'shipping_amount' => (float)$order->shipping_incl_tax
 					];
 
 					$result = $this->order->create($localOrder); // TODO gestire eventuali errori

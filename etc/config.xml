@@ -22,7 +22,7 @@
 			</nooe_payments>
 		</payment>
 		<carriers>
-			<nooe_shipping>
+			<nooeshipping>
 				<active>1</active>
 				<title>Nooe Shipping</title>
 				<name>Nooe Shipping Method</name>
@@ -30,7 +30,7 @@
 				<sallowspecific>0</sallowspecific>
 				<sort_order>100</sort_order>
 				<model>Nooe\M2Connector\Model\Shipping\NooeShipping</model>
-			</nooe_shipping>
+			</nooeshipping>
 		</carriers>
 	</default>
 </config>

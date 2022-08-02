@@ -65,9 +65,14 @@ class Order implements OrderInterface
 	protected $quoteManagement;
 
 	/**
-	 * @var \Nooe\M2Connector\Helper\Data
+	 * @var \Magento\Quote\Model\Quote\Address\Rate
 	 */
-	protected $configData;
+	protected $rate;
+
+    /**
+     * @var \Nooe\M2Connector\Helper\Data
+     */
+    protected $configData;
 
 	public function __construct(
 		\Nooe\M2Connector\Helper\Data $helperData,
@@ -78,6 +83,7 @@ class Order implements OrderInterface
 		\Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
 		\Magento\Catalog\Model\Product $product,
 		\Magento\Quote\Model\QuoteManagement $quoteManagement,
+        \Magento\Quote\Model\Quote\Address\Rate $rate,
 		\Nooe\M2Connector\Helper\Data $configData,
 		\Nooe\M2Connector\Logger\Logger $logger
 	) {
@@ -89,6 +95,7 @@ class Order implements OrderInterface
 		$this->customerRepository = $customerRepository;
 		$this->_product = $product;
 		$this->quoteManagement = $quoteManagement;
+        $this->rate = $rate;
 		$this->configData = $configData;
 		$this->logger = $logger;
 	}
@@ -136,15 +143,25 @@ class Order implements OrderInterface
 
 		// Collect Rates and Set Shipping & Payment Method
 
-		//$shippingAddress = $quote->getShippingAddress();
-		$quote->getShippingAddress()->setFreeShipping(true);
-		$quote->getShippingAddress()->setCollectShippingRates(true)
-			->collectShippingRates()
-			->setShippingMethod('freeshipping_freeshipping'); //shipping method*/
+        $shippingRateCarrier = 'nooeshipping';
+        $shippingRateCarrierTitle = 'NOOE SHIPPING';
+        $shippingRateCode = 'nooeshipping';
+        $shippingRateMethod = 'nooeshipping';
+        $shippingRatePrice = $order['shipping_amount'];
+        $shippingRateMethodTitle = 'NOOE SHIPPING METHOD';
 
-		// TODO settare nooe_shipping e prezzo di spedizione
+        $this->rate->setCarrier($shippingRateCarrier);
+        $this->rate->setCarrierTitle($shippingRateCarrierTitle);
+        $this->rate->setCode($shippingRateCode);
+        $this->rate->setMethod($shippingRateMethod);
+        $this->rate->setPrice($shippingRatePrice);
+        $this->rate->setMethodTitle($shippingRateMethodTitle);
+        $shippingAddress = $quote->getShippingAddress();
+        $shippingAddress->setCollectShippingRates(true)
+            ->collectShippingRates()
+            ->setShippingMethod($shippingRateCode); //shipping method
+        $quote->getShippingAddress()->addShippingRate($this->rate);
 
-		//$shippingAddress->setShippingMethod('freeshipping_freeshipping'); // nooe_shipping
 		$quote->setPaymentMethod('nooe_payments'); //payment method
 		$quote->setInventoryProcessed(false); //not affect inventory
 		$quote->save(); //Now Save quote and your quote is ready

@@ -11,9 +11,9 @@ class ApplyShipping
         $request
     )
     {
-        /*if ($carrierCode == 'nooe_shipping') {
+        if ($carrierCode == 'nooeshipping') {
             return false;
-        }*/
+        }
 
         return $proceed($carrierCode, $request);
     }
