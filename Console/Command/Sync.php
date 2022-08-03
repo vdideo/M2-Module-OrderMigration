@@ -187,8 +187,7 @@ class Sync extends Command
 		$this->setName('nooe:sync')
 			->setDescription('Sync')
 			->addOption('action', "action", InputOption::VALUE_OPTIONAL, "Specific Action")
-			->addOption('increment', "increment", InputOption::VALUE_OPTIONAL, "Specific Increment Id")
-			->addOption('store', "store", InputOption::VALUE_OPTIONAL, "Specific Store Id");
+			->addOption('increment', "increment", InputOption::VALUE_OPTIONAL, "Specific Increment Id");
 		parent::configure();
 	}
 
@@ -209,15 +208,11 @@ class Sync extends Command
 				$increment = $input->getOption('increment');
 			}
 
-			if ($input->getOption('store')) {
-				$store = $input->getOption('store');
-			}
-
 			switch ($action) {
 
 				case 'order':
 
-					$this->orderService->sync($increment, $store);
+					$this->orderService->sync($increment);
 					break;
 			}
 		} catch (\InvalidArgumentException $e) {

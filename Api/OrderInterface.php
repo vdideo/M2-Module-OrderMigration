@@ -15,5 +15,5 @@ interface OrderInterface
 
 	public function create($order);
 
-	public function getList($incrementId = null, $storeId = null);
+	public function getList($incrementId = null);
 }

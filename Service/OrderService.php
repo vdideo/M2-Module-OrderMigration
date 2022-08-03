@@ -33,10 +33,10 @@ class OrderService
 		$this->logger = $logger;
 	}
 
-	public function sync($incrementId = null, $storeId = null)
+	public function sync($incrementId = null)
 	{
 		// get orders from remote Magento
-		$orders = $this->order->getList($incrementId, $storeId);
+		$orders = $this->order->getList($incrementId);
 
 		// sync logic
 		if (count((array)$orders)) {
