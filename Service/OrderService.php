@@ -15,32 +15,54 @@ namespace Nooe\M2Connector\Service;
 
 class OrderService
 {
+	/**
+	 * @var \Nooe\M2Connector\Model\Order
+	 */
 	private $order;
+
+	/**
+	 * @var \Magento\Catalog\Model\ProductFactory $productFactory
+	 */
 	protected $productFactory;
+
+	/**
+	 * @var \Nooe\M2Connector\Helper\Data $configData
+	 */
 	protected $configData;
+
+	/**
+	 * @var \Nooe\M2Connector\Logger\Logger $logger
+	 */
 	private $logger;
+
+	/**
+	 * @var \Nooe\M2Connector\Helper\Sync
+	 */
+	private $syncHelper;
 
 	public function __construct(
 		\Nooe\M2Connector\Model\Order $order,
-		\Magento\Framework\App\Helper\Context $context,
 		\Magento\Catalog\Model\ProductFactory $productFactory,
 		\Nooe\M2Connector\Helper\Data $configData,
-		\Nooe\M2Connector\Logger\Logger $logger
+		\Nooe\M2Connector\Logger\Logger $logger,
+		\Nooe\M2Connector\Helper\Sync $syncHelper
 	) {
 		$this->order = $order;
 		$this->productFactory = $productFactory;
 		$this->configData = $configData;
 		$this->logger = $logger;
+		$this->syncHelper = $syncHelper;
 	}
 
 	public function sync($incrementId = null)
 	{
 		// get orders from remote Magento
 		$orders = $this->order->getList($incrementId);
-
-		// sync logic
-		if (count((array)$orders)) {
+		$totalOrderCount = count((array)$orders);
+		$count = 0;
+		if ($totalOrderCount) {
 			foreach ($orders as $key => $order) {
+				$count++;
 
 				try {
 					$items = array();
@@ -48,32 +70,32 @@ class OrderService
 					foreach ($order->items as $item) {
 						$product = $this->productFactory->create();
 
-                        // check if product exist
-                        $productId = $product->getIdBySku($item->sku);
+						// check if product exist
+						$productId = $product->getIdBySku($item->sku);
 
-                        if ($productId) {
-                            // check if stock is available
-                            $product->load($productId);
-                            $stockItem = $product->getExtensionAttributes()->getStockItem();
+						if ($productId) {
+							// check if stock is available
+							$product->load($productId);
+							$stockItem = $product->getExtensionAttributes()->getStockItem();
 
-                            if (!empty($stockItem)) {
-                                if (!$stockItem->getIsInStock() || $stockItem->getQty() < $item->qty_ordered) {
-                                    $this->logger->error("ORDER: " . $order->increment_id . " - quantità non disponibile per lo SKU " . $item->sku);
-                                    die();
-                                } else {
-                                    $cartItem['product_id'] = $productId;
-                                    $cartItem['qty'] = $item->qty_ordered;
-                                    $cartItem['price'] = $item->row_total_incl_tax;
-                                    $items[] = $cartItem;
-                                }
-                            } else {
-                                $this->logger->error("ORDER: " . $order->increment_id . " - impossibile verificare la quantità per lo SKU " . $item->sku);
-                            }
-                        } else {
-                            $this->logger->error("ORDER: " . $order->increment_id . " - Lo SKU " . $item->sku . " non esiste");
-                            die();
-                        }
-                    }
+							if (!empty($stockItem)) {
+								if (!$stockItem->getIsInStock() || $stockItem->getQty() < $item->qty_ordered) {
+									$this->logger->error("ORDER: " . $order->increment_id . " - quantità non disponibile per lo SKU " . $item->sku);
+									die();
+								} else {
+									$cartItem['product_id'] = $productId;
+									$cartItem['qty'] = $item->qty_ordered;
+									$cartItem['price'] = $item->row_total_incl_tax;
+									$items[] = $cartItem;
+								}
+							} else {
+								$this->logger->error("ORDER: " . $order->increment_id . " - impossibile verificare la quantità per lo SKU " . $item->sku);
+							}
+						} else {
+							$this->logger->error("ORDER: " . $order->increment_id . " - Lo SKU " . $item->sku . " non esiste");
+							die();
+						}
+					}
 
 					$address = $order->extension_attributes->shipping_assignments[0]->shipping->address;
 
@@ -95,13 +117,15 @@ class OrderService
 						'order_id' => $order->entity_id,
 						'order_date' => $order->created_at,
 						'items' => $items,
-                        'shipping_amount' => (float)$order->shipping_incl_tax
+						'shipping_amount' => (float)$order->shipping_incl_tax
 					];
 
 					$result = $this->order->create($localOrder); // TODO gestire eventuali errori
+
+					$this->syncHelper->show_status($count, $totalOrderCount, 30);
 				} catch (\Exception $e) {
 					$this->logger->error("ORDER: " . $order->increment_id . " - " . $e->getMessage());
-                    die();
+					die();
 				}
 			}
 		}

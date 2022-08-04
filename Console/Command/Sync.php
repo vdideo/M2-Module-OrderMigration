@@ -76,15 +76,17 @@ class Sync extends Command
 	private $registry;
 
 	/**
-	 * @var orderService
+	 * @var \Nooe\M2Connector\Service\OrderService
 	 */
 	private $orderService;
 
-    protected $moduleResource;
+	/**
+	 * @var \Nooe\M2Connector\Helper\Sync
+	 */
+	private $syncHelper;
 
 
 	public function __construct(
-        \Magento\Framework\Module\ResourceInterface $moduleResource,
 		\Magento\Store\Model\StoreManagerInterface $storeManagerInterface,
 		\Magento\Customer\Api\Data\CustomerInterfaceFactory $customerInterfaceFactory,
 		\Magento\Framework\Encryption\EncryptorInterface $encryptorInterface,
@@ -96,12 +98,13 @@ class Sync extends Command
 		\Magento\Framework\Api\FilterBuilder $filterBuilder,
 		\Magento\Framework\App\State $state,
 		\Magento\Framework\Registry $registry,
-		\Nooe\M2Connector\Service\OrderService $orderService
+		\Nooe\M2Connector\Service\OrderService $orderService,
+		\Nooe\M2Connector\Helper\Sync $syncHelper
 	) {
 		$state->setAreaCode('adminhtml');
 		$registry->register('isSecureArea', true);
 
-        $this->moduleResource = $moduleResource;
+		$this->moduleResource = $moduleResource;
 		$this->_storeManagerInterface = $storeManagerInterface;
 		$this->_customerInterfaceFactory = $customerInterfaceFactory;
 		$this->_encryptorInterface = $encryptorInterface;
@@ -114,72 +117,8 @@ class Sync extends Command
 		$this->state = $state;
 		$this->registry = $registry;
 		$this->orderService = $orderService;
+		$this->syncHelper = $syncHelper;
 		parent::__construct();
-	}
-
-
-	private function printHeading()
-	{
-		$version = $this->moduleResource->getDbVersion('Nooe_M2Connector');
-
-		echo "  _   _  ___   ___  _____    ____ ___  _   _ _   _ _____ ____ _____ ___  ____  ";
-		echo " | \ | |/ _ \ / _ \| ____|  / ___/ _ \| \ | | \ | | ____/ ___|_   _/ _ \|  _ \ ";
-		echo " |  \| | | | | | | |  _|   | |  | | | |  \| |  \| |  _|| |     | || | | | |_) |";
-		echo " | |\  | |_| | |_| | |___  | |__| |_| | |\  | |\  | |__| |___  | || |_| |  _ < ";
-		echo " |_| \_|\___/ \___/|_____|  \____\___/|_| \_|_| \_|_____\____| |_| \___/|_| \_\\";
-		echo "                                                                               v" . $version . "\n";
-		echo "\n\n\n";
-
-		echo "Sync\n\n";
-	}
-
-	private function show_status($done, $total, $size = 30)
-	{
-		static $start_time;
-
-		// if we go over our bound, just ignore it
-		if ($done > $total) {
-			return;
-		}
-
-		if (empty($start_time)) {
-			$start_time = time();
-		}
-		$now = time();
-
-		$perc = (float)($done / $total);
-
-		$bar = floor($perc * $size);
-
-		$status_bar = "\r[";
-		$status_bar .= str_repeat("=", $bar);
-		if ($bar < $size) {
-			$status_bar .= ">";
-			$status_bar .= str_repeat(" ", $size - $bar);
-		} else {
-			$status_bar .= "=";
-		}
-
-		$disp = number_format($perc * 100, 0);
-
-		$status_bar .= "] $disp%  $done/$total";
-
-		$rate = ($now - $start_time) / $done;
-		$left = $total - $done;
-		$eta = round($rate * $left, 2);
-
-		$elapsed = $now - $start_time;
-
-		$status_bar .= " remaining: " . number_format($eta) . " sec.  elapsed: " . number_format($elapsed) . " sec.";
-
-		echo "$status_bar  ";
-
-		flush();
-
-		// when done, send a newline
-		if ($done == $total) {
-			echo "\n\n\n\n";
-		}
 	}
 
 	protected function configure()
@@ -194,10 +133,9 @@ class Sync extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		$output->writeln($this->printHeading());
-
+		$output->writeln($this->syncHelper->printHeading());
+		$action = null;
 		$increment = null;
-		$store = null;
 
 		try {
 			if ($input->getOption('action')) {
@@ -209,9 +147,7 @@ class Sync extends Command
 			}
 
 			switch ($action) {
-
-				case 'order':
-
+				default:
 					$this->orderService->sync($increment);
 					break;
 			}
