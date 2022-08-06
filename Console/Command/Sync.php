@@ -157,7 +157,7 @@ class Sync extends Command
 			try {
 				switch ($action) {
 					case 'reset':
-						$this->configData->setStartDate('2022-01-01 00:00:00');
+						$this->configData->setStartDate('2022-06-01 00:00:00');
 						$this->configData->setIncrementId(0);
 						$this->configData->setOrderId(0);
 						break;

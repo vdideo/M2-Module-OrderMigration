@@ -100,13 +100,13 @@ class Order implements OrderInterface
 		$this->logger = $logger;
 	}
 
-	public function create($order)
+	public function create($orderData)
 	{
 		$store = $this->_storeManager->getStore();
 		$websiteId = $this->_storeManager->getStore()->getWebsiteId();
 		$customer = $this->customerFactory->create();
 		$customer->setWebsiteId($websiteId);
-		$customer->loadByEmail($order['email']); // load customet by email address
+		$customer->loadByEmail($orderData['email']); // load customet by email address
 
 		$guest = false;
 		if (!$customer->getEntityId()) {
@@ -118,9 +118,9 @@ class Order implements OrderInterface
 
 		if ($guest) {
 			// Set Customer Data on Quote, Do not create customer.
-			$quote->setCustomerFirstname($order['shipping_address']['firstname']);
-			$quote->setCustomerLastname($order['shipping_address']['lastname']);
-			$quote->setCustomerEmail($order['email']);
+			$quote->setCustomerFirstname($orderData['shipping_address']['firstname']);
+			$quote->setCustomerLastname($orderData['shipping_address']['lastname']);
+			$quote->setCustomerEmail($orderData['email']);
 			$quote->setCustomerIsGuest(true);
 		} else {
 			// if you have allready buyer id then you can load customer directly
@@ -129,7 +129,7 @@ class Order implements OrderInterface
 		}
 
 		//add items in quote
-		foreach ($order['items'] as $item) {
+		foreach ($orderData['items'] as $item) {
 			$product = $this->_product->load($item['product_id']);
 			$quote->addProduct(
 				$product,
@@ -138,16 +138,16 @@ class Order implements OrderInterface
 		}
 
 		//Set Address to quote
-		$quote->getBillingAddress()->addData($order['shipping_address']);
-		$quote->getShippingAddress()->addData($order['shipping_address']);
+		$quote->getBillingAddress()->addData($orderData['billing_address']);
+		$quote->getShippingAddress()->addData($orderData['shipping_address']);
 
 		// Collect Rates and Set Shipping & Payment Method
 
-		$shippingRateCarrier = 'nooeshipping';
+		$shippingRateCarrier = 'nooe_shipping';
 		$shippingRateCarrierTitle = 'NOOE SHIPPING';
-		$shippingRateCode = 'nooeshipping';
-		$shippingRateMethod = 'nooeshipping';
-		$shippingRatePrice = $order['shipping_amount'];
+		$shippingRateCode = 'nooe_shipping';
+		$shippingRateMethod = 'nooe_shipping';
+		$shippingRatePrice = $orderData['shipping_amount'];
 		$shippingRateMethodTitle = 'NOOE SHIPPING METHOD';
 
 		$this->rate->setCarrier($shippingRateCarrier);
@@ -177,9 +177,11 @@ class Order implements OrderInterface
 		$order->setEmailSent(1);
 		if ($order->getEntityId()) {
 			$prefix = (string)$this->configData->getOrderPrefix();
-			$incrementId = trim($prefix) . $order['increment_id'];
-			//$incrementId = trim($prefix) . $order->getIncrementId(); // get original increment ID
-			$success = $order->setIncrementId($incrementId)->save(); // TODO settare date ordine
+			$incrementId = trim($prefix) . $order->getIncrementId();
+			$order->setIncrementId($incrementId);
+			//TODO: valurare se settare la stessa data di NOOE o lasciare la data di inserimento (crea difficoltà nel trovare l'ordine dato l'increment sequenziale che pero non segue la data)
+			//$order->setCreatedAt($orderData['order_date']);
+			$success = $order->save();
 
 			if ($success) {
 				$result = ['success' => true, 'error' => false, 'message' => 'Order id: ' . $order->getRealOrderId() . ' created'];
@@ -231,6 +233,8 @@ class Order implements OrderInterface
 				$searchCriteria[] = 'searchCriteria[filter_groups][4][filters][0][field]=status&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][4][filters][0][value]=complete&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][4][filters][0][condition_type]=eq&';
+				$searchCriteria[] = 'searchCriteria[sortOrders][0][field]=entity_id&';
+				$searchCriteria[] = 'searchCriteria[sortOrders][0][direction]=ASC&';
 			}
 
 			$searchCriteria[] = 'searchCriteria[pageSize]=' . $orderLimit . '&';
@@ -245,10 +249,9 @@ class Order implements OrderInterface
 				} else {
 					$this->configData->setStartDate($toDate);
 				}
-			} catch (\Exception $exception) {
-				// TODO add log with error message
-				var_dump($exception);
-				die();
+			} catch (\Exception $e) {
+				throw new Exception($e->getMessage());
+				$this->logger->error($e->getMessage());
 			}
 		} else {
 			die("missing store id in module configuration");

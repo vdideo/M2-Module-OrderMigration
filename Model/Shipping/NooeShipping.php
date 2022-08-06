@@ -21,7 +21,7 @@ class NooeShipping extends AbstractCarrier implements CarrierInterface
 	/**
 	 * @var string
 	 */
-	protected $_code = 'nooeshipping';
+	protected $_code = 'nooe_shipping';
 
 
 	/**
@@ -57,38 +57,38 @@ class NooeShipping extends AbstractCarrier implements CarrierInterface
 
 
 
-    /**
-     * @param RateRequest $request
-     * @return bool|Result
-     */
-    public function collectRates(RateRequest $request)
-    {
-        if (!$this->getConfigFlag('active')) {
-            return false;
-        }
+	/**
+	 * @param RateRequest $request
+	 * @return bool|Result
+	 */
+	public function collectRates(RateRequest $request)
+	{
+		if (!$this->getConfigFlag('active')) {
+			return false;
+		}
 
-        /** @var \Magento\Shipping\Model\Rate\Result $result */
-        $result = $this->_rateResultFactory->create();
+		/** @var \Magento\Shipping\Model\Rate\Result $result */
+		$result = $this->_rateResultFactory->create();
 
-        /** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
-        $method = $this->_rateMethodFactory->create();
+		/** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
+		$method = $this->_rateMethodFactory->create();
 
-        $method->setCarrier($this->_code);
-        $method->setCarrierTitle($this->getConfigData('title'));
+		$method->setCarrier($this->_code);
+		$method->setCarrierTitle($this->getConfigData('title'));
 
 
-        $method->setMethod(strtolower('0001'));
-        $method->setMethodTitle($this->getConfigData('name'));
+		$method->setMethod(strtolower('0001'));
+		$method->setMethodTitle($this->getConfigData('name'));
 
-        $amount = 0; // is overridden in Order model
+		$amount = 0; // is overridden in Order model
 
-        $method->setPrice($amount);
-        $method->setCost($amount);
+		$method->setPrice($amount);
+		$method->setCost($amount);
 
-        $result->append($method);
+		$result->append($method);
 
-        return $result;
-    }
+		return $result;
+	}
 
 	/**
 	 * Returns allowed shipping methods
