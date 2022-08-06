@@ -184,7 +184,7 @@ class Order implements OrderInterface
 
 			if ($success) {
 				$this->configData->setStartDate($order['order_date']);
-				$this->configData->setIncrementId(trim($prefix) . $order['increment_id']);
+				$this->configData->setIncrementId($order['increment_id']);
 				$this->configData->setOrderId($order['order_id']);
 			}
 		} else {
