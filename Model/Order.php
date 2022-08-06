@@ -117,7 +117,7 @@ class Order implements OrderInterface
 		$quote->setCurrency();
 
 		if ($guest) {
-			// Set Customer Data on Qoute, Do not create customer.
+			// Set Customer Data on Quote, Do not create customer.
 			$quote->setCustomerFirstname($order['shipping_address']['firstname']);
 			$quote->setCustomerLastname($order['shipping_address']['lastname']);
 			$quote->setCustomerEmail($order['email']);
@@ -174,21 +174,18 @@ class Order implements OrderInterface
 
 		// Create Order From Quote
 		$order = $this->quoteManagement->submit($quote);
-		$order->setEmailSent(0);
+		$order->setEmailSent(1);
 		if ($order->getEntityId()) {
 			$prefix = (string)$this->configData->getOrderPrefix();
-			$incrementId = trim($prefix) . $order->getIncrementId(); // get original increment ID
+			$incrementId = trim($prefix) . $order['increment_id'];
+			//$incrementId = trim($prefix) . $order->getIncrementId(); // get original increment ID
 			$success = $order->setIncrementId($incrementId)->save(); // TODO settare date ordine
-			//var_dump($success);exit;
-			$result['order_id'] = $order->getRealOrderId();
 
 			if ($success) {
-				$this->configData->setStartDate($order['order_date']);
-				$this->configData->setIncrementId($order['increment_id']);
-				$this->configData->setOrderId($order['order_id']);
+				$result = ['success' => true, 'error' => false, 'message' => 'Order id: ' . $order->getRealOrderId() . ' created'];
 			}
 		} else {
-			$result = ['error' => 1, 'msg' => 'Error in order creation'];
+			$result = ['success' => false, 'error' => true, 'message' => 'Error in order creation'];
 		}
 
 		return $result;
@@ -196,21 +193,18 @@ class Order implements OrderInterface
 
 	public function getList($incrementId = null)
 	{
-		$orders         = array();
-		$data           = array();
 		$searchCriteria = array();
 		$orderLimit     = 100;
 		$stardDate      = $this->helperData->getStartDate();
 		$storeId      	= $this->helperData->getStoreCode();
+		$orderId		= $this->helperData->getOrderId();
 
 		$suckerInterval = ' +15 day';
 		$fromDate       = date('Y-m-d H:i:s', strtotime($stardDate));
 		$toDate         = date('Y-m-d H:i:s', strtotime($stardDate . $suckerInterval));
 
 		if ($storeId) {
-			/**
-			 * Init Filters
-			 */
+
 			if (!is_null($incrementId)) {
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=store_id&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $storeId . '&';
@@ -225,15 +219,18 @@ class Order implements OrderInterface
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=store_id&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $storeId . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=eq&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=created_at&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $fromDate . '&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=gteq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=entity_id&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $orderId . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=gt&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=created_at&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $toDate . '&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=lteq&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=status&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=complete&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][condition_type]=eq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $fromDate . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=gteq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=created_at&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $toDate . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][condition_type]=lteq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][4][filters][0][field]=status&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][4][filters][0][value]=complete&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][4][filters][0][condition_type]=eq&';
 			}
 
 			$searchCriteria[] = 'searchCriteria[pageSize]=' . $orderLimit . '&';
@@ -245,13 +242,8 @@ class Order implements OrderInterface
 
 				if ($allOrders && isset($allOrders->items) && count($allOrders->items)) {
 					return $allOrders->items;
-
-					// $totalOrderCount    = count((array)$orders);
-					// $count              = 0;
-					// foreach ($orders as $orderObj) {
-					//     var_dump($orderObj);
-					//     die();
-					// }
+				} else {
+					$this->configData->setStartDate($toDate);
 				}
 			} catch (\Exception $exception) {
 				// TODO add log with error message

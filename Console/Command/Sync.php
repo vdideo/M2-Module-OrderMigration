@@ -10,6 +10,7 @@
 
 namespace Nooe\M2Connector\Console\Command;
 
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -85,6 +86,11 @@ class Sync extends Command
 	 */
 	private $syncHelper;
 
+	/**
+	 * @var \Nooe\M2Connector\Helper\Data $configData
+	 */
+	private $configData;
+
 
 	public function __construct(
 		\Magento\Store\Model\StoreManagerInterface $storeManagerInterface,
@@ -99,12 +105,12 @@ class Sync extends Command
 		\Magento\Framework\App\State $state,
 		\Magento\Framework\Registry $registry,
 		\Nooe\M2Connector\Service\OrderService $orderService,
-		\Nooe\M2Connector\Helper\Sync $syncHelper
+		\Nooe\M2Connector\Helper\Sync $syncHelper,
+		\Nooe\M2Connector\Helper\Data $configData
 	) {
 		$state->setAreaCode('adminhtml');
 		$registry->register('isSecureArea', true);
 
-		$this->moduleResource = $moduleResource;
 		$this->_storeManagerInterface = $storeManagerInterface;
 		$this->_customerInterfaceFactory = $customerInterfaceFactory;
 		$this->_encryptorInterface = $encryptorInterface;
@@ -118,6 +124,7 @@ class Sync extends Command
 		$this->registry = $registry;
 		$this->orderService = $orderService;
 		$this->syncHelper = $syncHelper;
+		$this->configData = $configData;
 		parent::__construct();
 	}
 
@@ -146,10 +153,20 @@ class Sync extends Command
 				$increment = $input->getOption('increment');
 			}
 
-			switch ($action) {
-				default:
-					$this->orderService->sync($increment);
-					break;
+
+			try {
+				switch ($action) {
+					case 'reset':
+						$this->configData->setStartDate('2022-01-01 00:00:00');
+						$this->configData->setIncrementId(0);
+						$this->configData->setOrderId(0);
+						break;
+					default:
+						$this->orderService->sync($increment);
+						break;
+				}
+			} catch (Exception $e) {
+				$output->writeln($e->getMessage());
 			}
 		} catch (\InvalidArgumentException $e) {
 			$output->writeln('<error>Invalid argument.</error>');
