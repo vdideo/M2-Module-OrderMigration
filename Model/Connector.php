@@ -30,6 +30,9 @@ class Connector
 	 */
 	const API_REQUEST_URI = 'https://www.dulacfarmaceutici.com/rest/V1/';
 
+    /**
+     * Request timeout
+     */
 	const TIMEOUT = 100.0;
 
 	/**
@@ -42,10 +45,13 @@ class Connector
 	 */
 	private $clientFactory;
 
+    /**
+	 * @var Data
+	 */
 	private $helperData;
 
 	/**
-	 * Connector constructor
+	 * Connector constructor.
 	 *
 	 * @param ClientFactory $clientFactory
 	 * @param ResponseFactory $responseFactory
@@ -54,7 +60,8 @@ class Connector
 		ClientFactory $clientFactory,
 		ResponseFactory $responseFactory,
 		Data $helperData
-	) {
+	)
+    {
 		$this->clientFactory = $clientFactory;
 		$this->responseFactory = $responseFactory;
 		$this->helperData = $helperData;
@@ -66,14 +73,13 @@ class Connector
 	 * @param string $uriEndpoint
 	 * @param array $params
 	 * @param string $requestMethod
-	 *
 	 * @return Response
 	 */
 	private function doRequest(
 		string $uriEndpoint,
 		string $requestMethod = Request::HTTP_METHOD_GET
-	) {
-
+	)
+    {
 		/** @var Client $client */
 		$client = $this->clientFactory->create(['config' => [
 			'base_uri' => self::API_REQUEST_URI,

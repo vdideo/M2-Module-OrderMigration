@@ -74,6 +74,21 @@ class Order implements OrderInterface
 	 */
 	protected $configData;
 
+    /**
+     * Order constructor.
+     *
+     * @param \Nooe\M2Connector\Helper\Data $helperData
+     * @param \Nooe\M2Connector\Model\Connector $connector
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Quote\Model\QuoteFactory $quote
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Quote\Model\QuoteManagement $quoteManagement
+     * @param \Magento\Quote\Model\Quote\Address\Rate $rate
+     * @param \Nooe\M2Connector\Helper\Data $configData
+     * @param \Nooe\M2Connector\Logger\Logger $logger
+     */
 	public function __construct(
 		\Nooe\M2Connector\Helper\Data $helperData,
 		\Nooe\M2Connector\Model\Connector $connector,
@@ -86,7 +101,8 @@ class Order implements OrderInterface
 		\Magento\Quote\Model\Quote\Address\Rate $rate,
 		\Nooe\M2Connector\Helper\Data $configData,
 		\Nooe\M2Connector\Logger\Logger $logger
-	) {
+	)
+    {
 		$this->helperData = $helperData;
 		$this->connector = $connector;
 		$this->_storeManager = $storeManager;
@@ -100,6 +116,9 @@ class Order implements OrderInterface
 		$this->logger = $logger;
 	}
 
+    /**
+     * {@inheritdoc}
+     */
 	public function create($orderData)
 	{
 		$store = $this->_storeManager->getStore();
@@ -193,6 +212,9 @@ class Order implements OrderInterface
 		return $result;
 	}
 
+    /**
+     * {@inheritdoc}
+     */
 	public function getList($incrementId = null)
 	{
 		$searchCriteria = array();
@@ -254,7 +276,7 @@ class Order implements OrderInterface
 				$this->logger->error($e->getMessage());
 			}
 		} else {
-			die("missing store id in module configuration");
+			throw new Exception("Missing store id in module configuration");
 		}
 	}
 }

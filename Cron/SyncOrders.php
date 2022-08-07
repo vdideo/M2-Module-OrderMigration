@@ -19,18 +19,23 @@ class SyncOrders
 	protected $orderService;
 
 	/**
+     * SyncOrders constructor.
+     * 
 	 * @param \Nooe\M2Connector\Service\OrderService $orderService
 	 */
 	public function __construct(
 		\Nooe\M2Connector\Service\OrderService $orderService
-	) {
+	)
+    {
 
 		$this->orderService = $orderService;
 	}
 
 	/**
-	 * @return void
-	 */
+     * Synchronize orders with other magento store.
+     *
+     * @return void
+     */
 	public function execute()
 	{
 		$this->orderService->sync();

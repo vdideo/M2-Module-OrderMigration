@@ -10,7 +10,6 @@
 
 namespace Nooe\M2Connector\Helper;
 
-
 class Sync
 {
 	/**
@@ -18,9 +17,15 @@ class Sync
 	 */
 	protected $moduleResource;
 
+    /**
+     * Sync constructor.
+     * 
+	 * @param \Magento\Framework\Module\ResourceInterface $moduleResource
+	 */
 	public function __construct(
 		\Magento\Framework\Module\ResourceInterface $moduleResource
-	) {
+	)
+    {
 		$this->moduleResource = $moduleResource;
 	}
 
@@ -48,6 +53,15 @@ class Sync
 		echo "\n";
 	}
 
+    /**
+     * Shows progress bar on each iteration.
+     *
+     * @param int $done
+     * @param int $total
+     * @param int $size
+     * @return void
+     * @throws \Exception
+     */
 	public function show_status($done, $total, $size = 30)
 	{
 		static $start_time;

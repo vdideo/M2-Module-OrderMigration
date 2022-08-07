@@ -21,6 +21,8 @@ class DateTime extends \Magento\Config\Block\System\Config\Form\Field
 	protected $_coreRegistry;
 
 	/**
+     * DateTime constructor.
+     * 
 	 * @param Context $context
 	 * @param Registry $coreRegistry
 	 * @param array $data
@@ -29,11 +31,15 @@ class DateTime extends \Magento\Config\Block\System\Config\Form\Field
 		Context  $context,
 		Registry $coreRegistry,
 		array    $data = []
-	) {
+	)
+    {
 		$this->_coreRegistry = $coreRegistry;
 		parent::__construct($context, $data);
 	}
 
+    /**
+     * {@inheritdoc}
+     */
 	public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
 	{
 		$element->setDateFormat(\Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT);

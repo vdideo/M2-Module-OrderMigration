@@ -20,7 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Sync extends Command
 {
-
 	/**
 	 * @var \Magento\Store\Model\StoreManagerInterface
 	 */
@@ -91,7 +90,24 @@ class Sync extends Command
 	 */
 	private $configData;
 
-
+    /**
+     * Sync constructor.
+     *
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManagerInterface
+     * @param \Magento\Customer\Api\Data\CustomerInterfaceFactory $customerInterfaceFactory
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptorInterface
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepositoryInterface
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Customer\Api\Data\AddressInterfaceFactory $addressDataFactory
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\App\State $state
+     * @param \Magento\Framework\Registry $registry
+     * @param \Nooe\M2Connector\Service\OrderService $orderService
+     * @param \Nooe\M2Connector\Helper\Sync $syncHelper
+     * @param \Nooe\M2Connector\Helper\Data $configData
+     */
 	public function __construct(
 		\Magento\Store\Model\StoreManagerInterface $storeManagerInterface,
 		\Magento\Customer\Api\Data\CustomerInterfaceFactory $customerInterfaceFactory,
@@ -107,7 +123,8 @@ class Sync extends Command
 		\Nooe\M2Connector\Service\OrderService $orderService,
 		\Nooe\M2Connector\Helper\Sync $syncHelper,
 		\Nooe\M2Connector\Helper\Data $configData
-	) {
+	)
+    {
 		$state->setAreaCode('adminhtml');
 		$registry->register('isSecureArea', true);
 
@@ -128,6 +145,9 @@ class Sync extends Command
 		parent::__construct();
 	}
 
+    /**
+     * {@inheritdoc}
+     */
 	protected function configure()
 	{
 		$this->setName('nooe:sync')
@@ -137,7 +157,9 @@ class Sync extends Command
 		parent::configure();
 	}
 
-
+    /**
+     * {@inheritdoc}
+     */
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		$output->writeln($this->syncHelper->printHeading());

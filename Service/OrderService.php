@@ -41,13 +41,23 @@ class OrderService
 	 */
 	private $syncHelper;
 
+    /**
+     * OrderService constructor.
+     *
+     * @param \Nooe\M2Connector\Model\Order $order
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Nooe\M2Connector\Helper\Data $configData
+     * @param \Nooe\M2Connector\Logger\Logger $logger
+     * @param \Nooe\M2Connector\Helper\Sync $syncHelper
+     */
 	public function __construct(
 		\Nooe\M2Connector\Model\Order $order,
 		\Magento\Catalog\Model\ProductFactory $productFactory,
 		\Nooe\M2Connector\Helper\Data $configData,
 		\Nooe\M2Connector\Logger\Logger $logger,
 		\Nooe\M2Connector\Helper\Sync $syncHelper
-	) {
+	)
+    {
 		$this->order = $order;
 		$this->productFactory = $productFactory;
 		$this->configData = $configData;
@@ -55,6 +65,14 @@ class OrderService
 		$this->syncHelper = $syncHelper;
 	}
 
+    /**
+     * Synchronizes the list of orders from a remote Magento store.
+     * If $incrementid was passed as an argument, it will only sync the order corresponding to that increment id.
+     *
+     * @param string|null $incrementId
+     * @return void
+     * @throws \Exception
+     */
 	public function sync($incrementId = null)
 	{
 		// get orders from remote Magento

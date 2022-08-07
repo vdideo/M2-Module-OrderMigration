@@ -17,7 +17,6 @@ use Magento\Shipping\Model\Rate\Result;
 
 class NooeShipping extends AbstractCarrier implements CarrierInterface
 {
-
 	/**
 	 * @var string
 	 */
@@ -35,6 +34,8 @@ class NooeShipping extends AbstractCarrier implements CarrierInterface
 	protected $_rateMethodFactory;
 
 	/**
+     * NooeShipping constructor.
+     * 
 	 * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
 	 * @param \Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
 	 * @param \Psr\Log\LoggerInterface $logger
@@ -49,13 +50,12 @@ class NooeShipping extends AbstractCarrier implements CarrierInterface
 		\Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
 		\Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
 		array $data = []
-	) {
+	)
+    {
 		$this->_rateResultFactory = $rateResultFactory;
 		$this->_rateMethodFactory = $rateMethodFactory;
 		parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
 	}
-
-
 
 	/**
 	 * @param RateRequest $request
