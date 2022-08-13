@@ -10,6 +10,7 @@
 
 namespace Nooe\M2Connector\Model;
 
+use Exception;
 use Nooe\M2Connector\Api\OrderInterface;
 
 class Order implements OrderInterface
@@ -74,21 +75,21 @@ class Order implements OrderInterface
 	 */
 	protected $configData;
 
-    /**
-     * Order constructor.
-     *
-     * @param \Nooe\M2Connector\Helper\Data $helperData
-     * @param \Nooe\M2Connector\Model\Connector $connector
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Quote\Model\QuoteFactory $quote
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Quote\Model\QuoteManagement $quoteManagement
-     * @param \Magento\Quote\Model\Quote\Address\Rate $rate
-     * @param \Nooe\M2Connector\Helper\Data $configData
-     * @param \Nooe\M2Connector\Logger\Logger $logger
-     */
+	/**
+	 * Order constructor.
+	 *
+	 * @param \Nooe\M2Connector\Helper\Data $helperData
+	 * @param \Nooe\M2Connector\Model\Connector $connector
+	 * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+	 * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+	 * @param \Magento\Quote\Model\QuoteFactory $quote
+	 * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+	 * @param \Magento\Catalog\Model\Product $product
+	 * @param \Magento\Quote\Model\QuoteManagement $quoteManagement
+	 * @param \Magento\Quote\Model\Quote\Address\Rate $rate
+	 * @param \Nooe\M2Connector\Helper\Data $configData
+	 * @param \Nooe\M2Connector\Logger\Logger $logger
+	 */
 	public function __construct(
 		\Nooe\M2Connector\Helper\Data $helperData,
 		\Nooe\M2Connector\Model\Connector $connector,
@@ -101,8 +102,7 @@ class Order implements OrderInterface
 		\Magento\Quote\Model\Quote\Address\Rate $rate,
 		\Nooe\M2Connector\Helper\Data $configData,
 		\Nooe\M2Connector\Logger\Logger $logger
-	)
-    {
+	) {
 		$this->helperData = $helperData;
 		$this->connector = $connector;
 		$this->_storeManager = $storeManager;
@@ -116,9 +116,9 @@ class Order implements OrderInterface
 		$this->logger = $logger;
 	}
 
-    /**
-     * {@inheritdoc}
-     */
+	/**
+	 * {@inheritdoc}
+	 */
 	public function create($orderData)
 	{
 		$store = $this->_storeManager->getStore();
@@ -212,49 +212,36 @@ class Order implements OrderInterface
 		return $result;
 	}
 
-    /**
-     * {@inheritdoc}
-     */
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getList($incrementId = null)
 	{
 		$searchCriteria = array();
 		$orderLimit     = 100;
-		$stardDate      = $this->helperData->getStartDate();
-		$storeId      	= $this->helperData->getStoreCode();
+		$startDate      = $this->helperData->getStartDate();
 		$orderId		= $this->helperData->getOrderId();
 
 		$suckerInterval = ' +15 day';
-		$fromDate       = date('Y-m-d H:i:s', strtotime($stardDate));
-		$toDate         = date('Y-m-d H:i:s', strtotime($stardDate . $suckerInterval));
+		$fromDate       = date('Y-m-d H:i:s', strtotime($startDate));
+		$toDate         = date('Y-m-d H:i:s', strtotime($startDate . $suckerInterval));
 
-		if ($storeId) {
+		if ($startDate) {
 
 			if (!is_null($incrementId)) {
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=store_id&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $storeId . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=increment_id&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $incrementId . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=eq&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=increment_id&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $incrementId . '&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=eq&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=status&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=complete&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=eq&';
 			} else {
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=store_id&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $storeId . '&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=eq&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=entity_id&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $orderId . '&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=gt&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=entity_id&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $orderId . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=gt&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=created_at&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $fromDate . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=gteq&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=created_at&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $fromDate . '&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=gteq&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=created_at&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $toDate . '&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][condition_type]=lteq&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][4][filters][0][field]=status&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][4][filters][0][value]=complete&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][4][filters][0][condition_type]=eq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $toDate . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=lteq&';
 				$searchCriteria[] = 'searchCriteria[sortOrders][0][field]=entity_id&';
 				$searchCriteria[] = 'searchCriteria[sortOrders][0][direction]=ASC&';
 			}
@@ -267,16 +254,22 @@ class Order implements OrderInterface
 				$allOrders = $this->connector->call(self::API_REQUEST_ENDPOINT, null, implode('', $searchCriteria));
 
 				if ($allOrders && isset($allOrders->items) && count($allOrders->items)) {
+
+					foreach ($allOrders->items as $key => $order) {
+						echo $order->increment_id . ' (' . $order->status . ")\n\n";
+					}
+					die();
+
 					return $allOrders->items;
 				} else {
 					$this->configData->setStartDate($toDate);
 				}
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				throw new Exception($e->getMessage());
 				$this->logger->error($e->getMessage());
 			}
 		} else {
-			throw new Exception("Missing store id in module configuration");
+			throw new Exception("Missing Start Date in module configuration");
 		}
 	}
 }

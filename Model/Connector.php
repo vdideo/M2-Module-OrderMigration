@@ -28,11 +28,12 @@ class Connector
 	/**
 	 * API request URL
 	 */
-	const API_REQUEST_URI = 'https://www.dulacfarmaceutici.com/rest/V1/';
+	// const API_REQUEST_URI = 'https://www.dulacfarmaceutici.com/rest/V1/';
+	const API_REQUEST_URI = 'https://admin.nooestores.com/rest/V1/nooe/';
 
-    /**
-     * Request timeout
-     */
+	/**
+	 * Request timeout
+	 */
 	const TIMEOUT = 100.0;
 
 	/**
@@ -45,7 +46,7 @@ class Connector
 	 */
 	private $clientFactory;
 
-    /**
+	/**
 	 * @var Data
 	 */
 	private $helperData;
@@ -60,8 +61,7 @@ class Connector
 		ClientFactory $clientFactory,
 		ResponseFactory $responseFactory,
 		Data $helperData
-	)
-    {
+	) {
 		$this->clientFactory = $clientFactory;
 		$this->responseFactory = $responseFactory;
 		$this->helperData = $helperData;
@@ -78,8 +78,7 @@ class Connector
 	private function doRequest(
 		string $uriEndpoint,
 		string $requestMethod = Request::HTTP_METHOD_GET
-	)
-    {
+	) {
 		/** @var Client $client */
 		$client = $this->clientFactory->create(['config' => [
 			'base_uri' => self::API_REQUEST_URI,
