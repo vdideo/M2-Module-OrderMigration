@@ -221,6 +221,7 @@ class Order implements OrderInterface
 		$orderLimit     = 100;
 		$startDate      = $this->helperData->getStartDate();
 		$orderId		= $this->helperData->getOrderId();
+		$storeCode      = $this->helperData->getStoreCode();
 
 		$suckerInterval = ' +15 day';
 		$fromDate       = date('Y-m-d H:i:s', strtotime($startDate));
@@ -229,19 +230,25 @@ class Order implements OrderInterface
 		if ($startDate) {
 
 			if (!is_null($incrementId)) {
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=increment_id&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $incrementId . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=store_code&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $storeCode . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=eq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=increment_id&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $incrementId . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=eq&';
 			} else {
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=entity_id&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $orderId . '&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=gt&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=created_at&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $fromDate . '&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=gteq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=store_code&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $storeCode . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=eq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=entity_id&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $orderId . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=gt&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=created_at&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $toDate . '&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=lteq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $fromDate . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=gteq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=created_at&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $toDate . '&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][condition_type]=lteq&';
 				$searchCriteria[] = 'searchCriteria[sortOrders][0][field]=entity_id&';
 				$searchCriteria[] = 'searchCriteria[sortOrders][0][direction]=ASC&';
 			}
@@ -253,6 +260,8 @@ class Order implements OrderInterface
 
 				$allOrders = $this->connector->call(self::API_REQUEST_ENDPOINT, null, implode('', $searchCriteria));
 
+				var_dump($allOrders);
+				die();
 				if ($allOrders && isset($allOrders->items) && count($allOrders->items)) {
 
 					foreach ($allOrders->items as $key => $order) {

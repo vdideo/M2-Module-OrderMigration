@@ -17,15 +17,14 @@ class Sync
 	 */
 	protected $moduleResource;
 
-    /**
-     * Sync constructor.
-     * 
+	/**
+	 * Sync constructor.
+	 * 
 	 * @param \Magento\Framework\Module\ResourceInterface $moduleResource
 	 */
 	public function __construct(
 		\Magento\Framework\Module\ResourceInterface $moduleResource
-	)
-    {
+	) {
 		$this->moduleResource = $moduleResource;
 	}
 
@@ -33,15 +32,6 @@ class Sync
 	public function printHeading()
 	{
 		$version = $this->moduleResource->getDbVersion('Nooe_M2Connector');
-
-		// echo "________________________________________\n";
-		// echo "   _____ __  __________ __ __________\n";
-		// echo "  / ___// / / / ____/ //_// ____/ __ \\\n";
-		// echo "  \__ \/ / / / /   / ,<  / __/ / /_/ /\n";
-		// echo " ___/ / /_/ / /___/ /| |/ /___/ _, _/ \n";
-		// echo "/____/\____/\____/_/ |_/_____/_/ |_|  \n";
-		// echo "________________________________________\n";
-		// echo "\n\n\n";
 
 		echo "_____________________________________________________________________________________\n";
 		echo "  _   _  ___   ___  _____    ____ ___  _   _ _   _ _____ ____ _____ ___  ____  \n";
@@ -53,15 +43,15 @@ class Sync
 		echo "\n";
 	}
 
-    /**
-     * Shows progress bar on each iteration.
-     *
-     * @param int $done
-     * @param int $total
-     * @param int $size
-     * @return void
-     * @throws \Exception
-     */
+	/**
+	 * Shows progress bar on each iteration.
+	 *
+	 * @param int $done
+	 * @param int $total
+	 * @param int $size
+	 * @return void
+	 * @throws \Exception
+	 */
 	public function show_status($done, $total, $size = 30)
 	{
 		static $start_time;
