@@ -259,9 +259,9 @@ class Order implements OrderInterface
 			try {
 
 				$allOrders = $this->connector->call(self::API_REQUEST_ENDPOINT, null, implode('', $searchCriteria));
+				// var_dump($allOrders);
+				// die();
 
-				var_dump($allOrders);
-				die();
 				if ($allOrders && isset($allOrders->items) && count($allOrders->items)) {
 
 					foreach ($allOrders->items as $key => $order) {
