@@ -28,8 +28,7 @@ class Connector
 	/**
 	 * API request URL
 	 */
-	// const API_REQUEST_URI = 'https://www.dulacfarmaceutici.com/rest/V1/';
-	const API_REQUEST_URI = 'https://admin.nooestores.com/rest/V1/nooe/';
+	const API_REQUEST_URI = 'https://admin.nooestores.com/rest/V1/NOOE/';
 
 	/**
 	 * Request timeout
@@ -75,9 +74,10 @@ class Connector
 	 * @param string $requestMethod
 	 * @return Response
 	 */
-	private function doRequest(
+	public function doRequest(
 		string $uriEndpoint,
-		string $requestMethod = Request::HTTP_METHOD_GET
+		string $requestMethod = Request::HTTP_METHOD_GET,
+		array $data = []
 	) {
 		/** @var Client $client */
 		$client = $this->clientFactory->create(['config' => [
@@ -92,6 +92,11 @@ class Connector
 				'Content-type' => 'application/json'
 			]
 		];
+
+		if (!empty($data)) {
+			$params['body'] = json_encode($data);
+		}
+
 		try {
 			$res = $client->request(
 				$requestMethod,
@@ -115,9 +120,9 @@ class Connector
 		return $response;
 	}
 
-	public function call($service, $id = null, $searchCriteria = null)
+	public function call($endpoint, $id = null, $searchCriteria = null)
 	{
-		$url = $service;
+		$url = $endpoint;
 		if ($id) {
 			$url .= '/' . $id;
 		}
@@ -126,6 +131,13 @@ class Connector
 		}
 
 		$result = $this->doRequest($url);
+
+		return $result;
+	}
+
+	public function send($endpoint, $method, $data)
+	{
+		$result = $this->doRequest($endpoint, $method, $data);
 
 		return $result;
 	}

@@ -18,6 +18,7 @@
 				<start_date></start_date>
 				<increment_id>0</increment_id>
 				<order_id>0</order_id>
+				<product_sku></product_sku>
 				<debug_mode>0</debug_mode>
 			</general>
 		</Nooe_M2Connector>

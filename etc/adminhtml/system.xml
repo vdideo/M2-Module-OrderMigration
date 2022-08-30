@@ -44,7 +44,11 @@
 					<validate>validate-number</validate>
 					<frontend_model>Nooe\M2Connector\Model\Elements\Increment</frontend_model>
 				</field>
-				<field id="debug_mode" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="product_sku" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Product SKU</label>
+					<comment>Specify the product SKU if you want enable stock syncronization.</comment>
+				</field>
+				<field id="debug_mode" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Debug mode</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 					<comment>If enabled, logs will be shown in var/log/nooe_connector.log</comment>

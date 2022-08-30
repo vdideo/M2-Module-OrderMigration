@@ -81,6 +81,11 @@ class Sync extends Command
 	private $orderService;
 
 	/**
+	 * @var \Nooe\M2Connector\Service\ProductService
+	 */
+	private $productService;
+
+	/**
 	 * @var \Nooe\M2Connector\Helper\Sync
 	 */
 	private $syncHelper;
@@ -90,24 +95,25 @@ class Sync extends Command
 	 */
 	private $configData;
 
-    /**
-     * Sync constructor.
-     *
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManagerInterface
-     * @param \Magento\Customer\Api\Data\CustomerInterfaceFactory $customerInterfaceFactory
-     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptorInterface
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepositoryInterface
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
-     * @param \Magento\Customer\Api\Data\AddressInterfaceFactory $addressDataFactory
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
-     * @param \Magento\Framework\App\State $state
-     * @param \Magento\Framework\Registry $registry
-     * @param \Nooe\M2Connector\Service\OrderService $orderService
-     * @param \Nooe\M2Connector\Helper\Sync $syncHelper
-     * @param \Nooe\M2Connector\Helper\Data $configData
-     */
+	/**
+	 * Sync constructor.
+	 *
+	 * @param \Magento\Store\Model\StoreManagerInterface $storeManagerInterface
+	 * @param \Magento\Customer\Api\Data\CustomerInterfaceFactory $customerInterfaceFactory
+	 * @param \Magento\Framework\Encryption\EncryptorInterface $encryptorInterface
+	 * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepositoryInterface
+	 * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+	 * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+	 * @param \Magento\Customer\Api\Data\AddressInterfaceFactory $addressDataFactory
+	 * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+	 * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+	 * @param \Magento\Framework\App\State $state
+	 * @param \Magento\Framework\Registry $registry
+	 * @param \Nooe\M2Connector\Service\OrderService $orderService
+	 * @param \Nooe\M2Connector\Service\ProductService $productService
+	 * @param \Nooe\M2Connector\Helper\Sync $syncHelper
+	 * @param \Nooe\M2Connector\Helper\Data $configData
+	 */
 	public function __construct(
 		\Magento\Store\Model\StoreManagerInterface $storeManagerInterface,
 		\Magento\Customer\Api\Data\CustomerInterfaceFactory $customerInterfaceFactory,
@@ -121,10 +127,10 @@ class Sync extends Command
 		\Magento\Framework\App\State $state,
 		\Magento\Framework\Registry $registry,
 		\Nooe\M2Connector\Service\OrderService $orderService,
+		\Nooe\M2Connector\Service\ProductService $productService,
 		\Nooe\M2Connector\Helper\Sync $syncHelper,
 		\Nooe\M2Connector\Helper\Data $configData
-	)
-    {
+	) {
 		$state->setAreaCode('adminhtml');
 		$registry->register('isSecureArea', true);
 
@@ -140,14 +146,15 @@ class Sync extends Command
 		$this->state = $state;
 		$this->registry = $registry;
 		$this->orderService = $orderService;
+		$this->productService = $productService;
 		$this->syncHelper = $syncHelper;
 		$this->configData = $configData;
 		parent::__construct();
 	}
 
-    /**
-     * {@inheritdoc}
-     */
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function configure()
 	{
 		$this->setName('nooe:sync')
@@ -157,9 +164,9 @@ class Sync extends Command
 		parent::configure();
 	}
 
-    /**
-     * {@inheritdoc}
-     */
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		$output->writeln($this->syncHelper->printHeading());
@@ -178,10 +185,13 @@ class Sync extends Command
 
 			try {
 				switch ($action) {
-					case 'reset':
-						$this->configData->setStartDate('2022-06-01 00:00:00');
+					case 'order_reset':
+						$this->configData->setStartDate('2022-09-01 00:00:00');
 						$this->configData->setIncrementId(0);
 						$this->configData->setOrderId(0);
+						break;
+					case 'product':
+						$this->productService->sync();
 						break;
 					default:
 						$this->orderService->sync($increment);

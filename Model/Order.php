@@ -258,7 +258,8 @@ class Order implements OrderInterface
 
 			try {
 
-				$allOrders = $this->connector->call(self::API_REQUEST_ENDPOINT, null, implode('', $searchCriteria));
+				$endpoint = self::API_REQUEST_ENDPOINT . '/?' . implode('', $searchCriteria);
+				$allOrders = $this->connector->doRequest($endpoint);
 				// var_dump($allOrders);
 				// die();
 

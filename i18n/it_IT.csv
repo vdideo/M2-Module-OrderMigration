@@ -1,5 +1,6 @@
 "Access Token", "Token di accesso"
 "If enabled, logs will be shown in var/log/nooe_connector.log","Se abilitato verranno mostrati i log dentro var/log/nooe_connector.log"
+"Specify the product SKU if you want enable stock syncronization.,"Specificare l'SKU del prodotto se si desidera abilitare la sincronizzazione della quantità."
 "Order Id", "Id ordine"
 "Increment Id", "Id incrementale"
 "Start Date", "Data inizio"
