@@ -3,9 +3,9 @@
 /**
  * @category    Nooe
  * @package     Nooe_M2_Connector
- * @author      Tun2U Team <dev@tun2u.com>
- * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
- * @license     https://opensource.org/licenses/gpl-3.0.html  GNU General Public License (GPL 3.0)
+ * @author      NOOE Team <dev@nooestores.com>
+ * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
 namespace Nooe\M2Connector\Model\Elements;
@@ -21,8 +21,8 @@ class DateTime extends \Magento\Config\Block\System\Config\Form\Field
 	protected $_coreRegistry;
 
 	/**
-     * DateTime constructor.
-     * 
+	 * DateTime constructor.
+	 * 
 	 * @param Context $context
 	 * @param Registry $coreRegistry
 	 * @param array $data
@@ -31,15 +31,14 @@ class DateTime extends \Magento\Config\Block\System\Config\Form\Field
 		Context  $context,
 		Registry $coreRegistry,
 		array    $data = []
-	)
-    {
+	) {
 		$this->_coreRegistry = $coreRegistry;
 		parent::__construct($context, $data);
 	}
 
-    /**
-     * {@inheritdoc}
-     */
+	/**
+	 * {@inheritdoc}
+	 */
 	public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
 	{
 		$element->setDateFormat(\Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
