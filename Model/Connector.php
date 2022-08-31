@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Nooe\M2Connector\Model;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientFactory;
 use GuzzleHttp\Exception\GuzzleException;
@@ -110,11 +111,13 @@ class Connector
 			}
 		} catch (GuzzleException $exception) {
 
+			throw new Exception('[' . $exception->getCode() . '] ' . $exception->getMessage());
+
 			/** @var Response $response */
-			$response = $this->responseFactory->create([
-				'status' => $exception->getCode(),
-				'reason' => $exception->getMessage()
-			]);
+			// $response = $this->responseFactory->create([
+			// 	'status' => $exception->getCode(),
+			// 	'reason' => $exception->getMessage()
+			// ]);
 		}
 
 		return $response;

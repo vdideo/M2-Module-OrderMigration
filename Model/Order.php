@@ -161,7 +161,6 @@ class Order implements OrderInterface
 		$quote->getShippingAddress()->addData($orderData['shipping_address']);
 
 		// Collect Rates and Set Shipping & Payment Method
-
 		$shippingRateCarrier = 'nooe_shipping';
 		$shippingRateCarrierTitle = 'NOOE SHIPPING';
 		$shippingRateCode = 'nooe_shipping';
@@ -193,6 +192,20 @@ class Order implements OrderInterface
 
 		// Create Order From Quote
 		$order = $this->quoteManagement->submit($quote);
+
+		// Add order comment
+		if ($orderData['comment']) {
+			$history = $this->orderHistoryFactory->create()
+				->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING) // Update status when passing $comment parameter
+				->setEntityName(\Magento\Sales\Model\Order::ENTITY) // Set the entity name for order
+				->setComment(
+					__('Note: %1.', $orderData['comment'])
+				);
+			$history->setIsCustomerNotified(false) // Enable Notify your customers via email
+				->setIsVisibleOnFront(false); // Enable order comment visible on sales order details
+			$order->addStatusHistory($history);
+		}
+
 		$order->setEmailSent(1);
 		if ($order->getEntityId()) {
 			$prefix = (string)$this->configData->getOrderPrefix();
@@ -231,24 +244,24 @@ class Order implements OrderInterface
 
 			if (!is_null($incrementId)) {
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=store_code&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $storeCode . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=eq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $storeCode . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=increment_id&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $incrementId . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=eq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $incrementId . '&';
 			} else {
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=store_code&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $storeCode . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=eq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $storeCode . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=entity_id&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $orderId . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=gt&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $orderId . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=created_at&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $fromDate . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=gteq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $fromDate . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=created_at&';
-				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $toDate . '&';
 				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][condition_type]=lteq&';
+				$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $toDate . '&';
 				$searchCriteria[] = 'searchCriteria[sortOrders][0][field]=entity_id&';
 				$searchCriteria[] = 'searchCriteria[sortOrders][0][direction]=ASC&';
 			}
@@ -257,26 +270,17 @@ class Order implements OrderInterface
 			$searchCriteria[] = 'searchCriteria[currentPage]=1';
 
 			try {
-
 				$endpoint = self::API_REQUEST_ENDPOINT . '/?' . implode('', $searchCriteria);
 				$allOrders = $this->connector->doRequest($endpoint);
-				// var_dump($allOrders);
-				// die();
 
 				if ($allOrders && isset($allOrders->items) && count($allOrders->items)) {
-
-					foreach ($allOrders->items as $key => $order) {
-						echo $order->increment_id . ' (' . $order->status . ")\n\n";
-					}
-					die();
-
 					return $allOrders->items;
 				} else {
 					$this->configData->setStartDate($toDate);
 				}
 			} catch (Exception $e) {
-				throw new Exception($e->getMessage());
 				$this->logger->error($e->getMessage());
+				throw new Exception($e->getMessage());
 			}
 		} else {
 			throw new Exception("Missing Start Date in module configuration");

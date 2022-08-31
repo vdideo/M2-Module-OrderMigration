@@ -41,23 +41,22 @@ class OrderService
 	 */
 	private $syncHelper;
 
-    /**
-     * OrderService constructor.
-     *
-     * @param \Nooe\M2Connector\Model\Order $order
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Nooe\M2Connector\Helper\Data $configData
-     * @param \Nooe\M2Connector\Logger\Logger $logger
-     * @param \Nooe\M2Connector\Helper\Sync $syncHelper
-     */
+	/**
+	 * OrderService constructor.
+	 *
+	 * @param \Nooe\M2Connector\Model\Order $order
+	 * @param \Magento\Catalog\Model\ProductFactory $productFactory
+	 * @param \Nooe\M2Connector\Helper\Data $configData
+	 * @param \Nooe\M2Connector\Logger\Logger $logger
+	 * @param \Nooe\M2Connector\Helper\Sync $syncHelper
+	 */
 	public function __construct(
 		\Nooe\M2Connector\Model\Order $order,
 		\Magento\Catalog\Model\ProductFactory $productFactory,
 		\Nooe\M2Connector\Helper\Data $configData,
 		\Nooe\M2Connector\Logger\Logger $logger,
 		\Nooe\M2Connector\Helper\Sync $syncHelper
-	)
-    {
+	) {
 		$this->order = $order;
 		$this->productFactory = $productFactory;
 		$this->configData = $configData;
@@ -65,14 +64,14 @@ class OrderService
 		$this->syncHelper = $syncHelper;
 	}
 
-    /**
-     * Synchronizes the list of orders from a remote Magento store.
-     * If $incrementid was passed as an argument, it will only sync the order corresponding to that increment id.
-     *
-     * @param string|null $incrementId
-     * @return void
-     * @throws \Exception
-     */
+	/**
+	 * Synchronizes the list of orders from a remote Magento store.
+	 * If $incrementid was passed as an argument, it will only sync the order corresponding to that increment id.
+	 *
+	 * @param string|null $incrementId
+	 * @return void
+	 * @throws \Exception
+	 */
 	public function sync($incrementId = null)
 	{
 		// get orders from remote Magento
@@ -82,6 +81,7 @@ class OrderService
 
 		if ($totalOrderCount) {
 			foreach ($orders as $key => $order) {
+				echo $order->increment_id . ' (' . $order->status . ")";
 				$count++;
 				$this->syncHelper->show_status($count, $totalOrderCount, 30);
 
@@ -136,10 +136,33 @@ class OrderService
 					$billingAddress = $order->billing_address;
 					$shippingAddress = $order->extension_attributes->shipping_assignments[0]->shipping->address;
 
+					$giftMessage = ['from' => '', 'to' => '', 'message' => ''];
+					if (isset($order->extension_attributes->gift_message)) {
+						$giftMessage['from'] = $order->extension_attributes->gift_message['sender'];
+						$giftMessage['to'] = $order->extension_attributes->gift_message['recipient'];
+						$giftMessage['message'] = $order->extension_attributes->gift_message['message'];
+					}
+
+					$orderComment = '';
+					$checkoutCommentLabel = '[CHECKOUT COMMENT] ';
+					foreach ($order->status_histories as $history) {
+						if (strpos($history->comment, $checkoutCommentLabel) !== false) {
+							$orderComment = str_replace($checkoutCommentLabel, '', $history->comment);
+							break;
+						}
+					}
+
 					$localOrder = [
-						'currency_id'  => $order->order_currency_code,
-						'email'        => $order->customer_email,
-						'billing_address' => [
+						'currency_id'		=> $order->order_currency_code,
+						'email'				=> $order->customer_email,
+						'increment_id'		=> $order->increment_id,
+						'order_id'			=> $order->entity_id,
+						'order_date'		=> $order->created_at,
+						'items'				=> $items,
+						'shipping_amount'	=> (float)$order->shipping_incl_tax,
+						'gift_message'		=> $giftMessage,
+						'comment'			=> $orderComment,
+						'billing_address'	=> [
 							'prefix'				=> isset($billingAddress->prefix) ? $billingAddress->prefix : '',
 							'firstname'				=> isset($billingAddress->firstname) ? $billingAddress->firstname : '',
 							'middlename'			=> isset($billingAddress->middlename) ? $billingAddress->middlename : '',
@@ -156,7 +179,7 @@ class OrderService
 							'vat_id'				=> isset($billingAddress->vat_id) ? $billingAddress->vat_id : '',
 							'save_in_address_book'	=> 0
 						],
-						'shipping_address' => [
+						'shipping_address'	=> [
 							'prefix'				=> isset($shippingAddress->prefix) ? $shippingAddress->prefix : '',
 							'firstname'				=> isset($shippingAddress->firstname) ? $shippingAddress->firstname : '',
 							'middlename'			=> isset($shippingAddress->middlename) ? $shippingAddress->middlename : '',
@@ -172,15 +195,10 @@ class OrderService
 							'fax'					=> isset($shippingAddress->fax) ? $shippingAddress->fax : '',
 							'vat_id'				=> isset($shippingAddress->vat_id) ? $shippingAddress->vat_id : '',
 							'save_in_address_book'	=> 0
-						],
-						'increment_id'		=> $order->increment_id,
-						'order_id'			=> $order->entity_id,
-						'order_date'		=> $order->created_at,
-						'items'				=> $items,
-						'shipping_amount'	=> (float)$order->shipping_incl_tax
+						]
 					];
 
-					$result = $this->order->create($localOrder); // TODO gestire eventuali errori
+					$result = $this->order->create($localOrder);
 
 					if ($result['success']) {
 						$this->configData->setStartDate($localOrder['order_date']);
@@ -188,6 +206,7 @@ class OrderService
 						$this->configData->setOrderId($localOrder['order_id']);
 
 						$this->logger->info($result['message']);
+						die();
 					} else {
 						throw new Exception($result['message']);
 						$this->logger->error("ORDER: " . $order->increment_id . " - " . $result['message']);
