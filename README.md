@@ -27,7 +27,7 @@ In case you wish to contribute to the plugin, fork the `dev` branch rather than 
 
 1.B) Connect via SSH and run the following commands
 
-    composer require nooe/module-m2-connector
+    composer require nooe/module-connector
 
 2.) Set the correct directory permissions:
 
