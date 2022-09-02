@@ -10,7 +10,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
 	<system>
-		<tab id="nooe" translate="label" sortOrder="20">
+		<tab id="nooe" translate="label" sortOrder="400">
 			<label>Nooe</label>
 		</tab>
 		<section id="connector" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
