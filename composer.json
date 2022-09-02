@@ -1,12 +1,16 @@
 {
     "name": "nooe/module-connector",
     "description": "Nooe Magento 2 Connector",
-    "require": {
-        "php": ">=7.1.0"
-    },
     "type": "magento2-module",
     "version": "1.0.0",
+    "minimum-stability": "stable",
     "license": "proprietary",
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "support": {
+        "email": "dev@nooestores.com"
+    },
     "authors": [{
         "name": "NOOE",
         "email": "info@nooestores.com",
