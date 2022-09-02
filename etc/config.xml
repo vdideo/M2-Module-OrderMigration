@@ -2,7 +2,7 @@
 <!--
 /**
  * @category    Nooe
- * @package     Nooe_M2_Connector
+ * @package     Nooe_Connector
  * @author      NOOE Team <dev@nooestores.com>
  * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
@@ -10,7 +10,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
 	<default>
-		<Nooe_M2Connector>
+		<Nooe_Connector>
 			<general>
 				<access_token></access_token>
 				<store_code></store_code>
@@ -21,11 +21,11 @@
 				<product_sku></product_sku>
 				<debug_mode>0</debug_mode>
 			</general>
-		</Nooe_M2Connector>
+		</Nooe_Connector>
 		<payment>
 			<nooe_payments>
 				<active>1</active>
-				<model>Nooe\M2Connector\Model\Payment\NooePayments</model>
+				<model>Nooe\Connector\Model\Payment\NooePayments</model>
 				<order_status>pending</order_status>
 				<title>Nooe Payments</title>
 				<allowspecific>0</allowspecific>
@@ -41,7 +41,7 @@
 				<shipping_cost>0</shipping_cost>
 				<sallowspecific>0</sallowspecific>
 				<sort_order>100</sort_order>
-				<model>Nooe\M2Connector\Model\Shipping\NooeShipping</model>
+				<model>Nooe\Connector\Model\Shipping\NooeShipping</model>
 			</nooe_shipping>
 		</carriers>
 	</default>

@@ -2,13 +2,13 @@
 
 /**
  * @category    Nooe
- * @package     Nooe_M2_Connector
+ * @package     Nooe_Connector
  * @author      NOOE Team <dev@nooestores.com>
  * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\M2Connector\Helper;
+namespace Nooe\Connector\Helper;
 
 class Sync
 {
@@ -31,7 +31,7 @@ class Sync
 
 	public function printHeading()
 	{
-		$version = $this->moduleResource->getDbVersion('Nooe_M2Connector');
+		$version = $this->moduleResource->getDbVersion('Nooe_Connector');
 
 		echo "_____________________________________________________________________________________\n";
 		echo "  _   _  ___   ___  _____    ____ ___  _   _ _   _ _____ ____ _____ ___  ____  \n";

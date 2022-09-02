@@ -2,7 +2,7 @@
 <!--
 /**
  * @category    Nooe
- * @package     Nooe_M2_Connector
+ * @package     Nooe_Connector
  * @author      NOOE Team <dev@nooestores.com>
  * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
@@ -17,7 +17,7 @@
 			<class>separator-top</class>
 			<label>NOOE Connector</label>
 			<tab>nooe</tab>
-			<resource>Nooe_M2Connector::config_connector</resource>
+			<resource>Nooe_Connector::config_connector</resource>
 			<group id="connector_settings" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>NOOE Connector Settings</label>
 				<field id="access_token" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -32,17 +32,17 @@
 				</field>
 				<field id="start_date" translate="label" type="date" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Start Date</label>
-					<frontend_model>Nooe\M2Connector\Model\Elements\DateTime</frontend_model>
+					<frontend_model>Nooe\Connector\Model\Elements\DateTime</frontend_model>
 					<comment>Synchronization start date</comment>
 				</field>
 				<field id="increment_id" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Increment Id</label>
-					<frontend_model>Nooe\M2Connector\Model\Elements\Increment</frontend_model>
+					<frontend_model>Nooe\Connector\Model\Elements\Increment</frontend_model>
 				</field>
 				<field id="order_id" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Order Id</label>
 					<validate>validate-number</validate>
-					<frontend_model>Nooe\M2Connector\Model\Elements\Increment</frontend_model>
+					<frontend_model>Nooe\Connector\Model\Elements\Increment</frontend_model>
 				</field>
 				<field id="product_sku" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Product SKU</label>

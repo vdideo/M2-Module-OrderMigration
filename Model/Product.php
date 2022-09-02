@@ -2,16 +2,16 @@
 
 /**
  * @category    Nooe
- * @package     Nooe_M2_Connector
+ * @package     Nooe_Connector
  * @author      NOOE Team <dev@nooestores.com>
  * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\M2Connector\Model;
+namespace Nooe\Connector\Model;
 
 use Exception;
-use Nooe\M2Connector\Api\ProductInterface;
+use Nooe\Connector\Api\ProductInterface;
 
 class Product implements ProductInterface
 {
@@ -21,17 +21,17 @@ class Product implements ProductInterface
 	const API_REQUEST_ENDPOINT = 'products';
 
 	/**
-	 * @var \Nooe\M2Connector\Helper\Data
+	 * @var \Nooe\Connector\Helper\Data
 	 */
 	private $helperData;
 
 	/**
-	 * @var \Nooe\M2Connector\Model\Connector
+	 * @var \Nooe\Connector\Model\Connector
 	 */
 	private $connector;
 
 	/**
-	 * @var \Nooe\M2Connector\Logger\Logger
+	 * @var \Nooe\Connector\Logger\Logger
 	 */
 	private $logger;
 
@@ -56,31 +56,31 @@ class Product implements ProductInterface
 	protected $_linkManagement;
 
 	/**
-	 * @var \Nooe\M2Connector\Helper\Data
+	 * @var \Nooe\Connector\Helper\Data
 	 */
 	private $configData;
 
 	/**
 	 * Order constructor.
 	 *
-	 * @param \Nooe\M2Connector\Helper\Data $helperData
-	 * @param \Nooe\M2Connector\Model\Connector $connector
+	 * @param \Nooe\Connector\Helper\Data $helperData
+	 * @param \Nooe\Connector\Model\Connector $connector
 	 * @param \Magento\Store\Model\StoreManagerInterface $storeManager
 	 * @param \Magento\CatalogInventory\Model\StockRegistry $stockRegistry
 	 * @param \Magento\Catalog\Model\ProductRepository $productRepository,
 	 * @param \Magento\ConfigurableProduct\Api\LinkManagementInterface $linkManagement,
-	 * @param \Nooe\M2Connector\Helper\Data $configData
-	 * @param \Nooe\M2Connector\Logger\Logger $logger
+	 * @param \Nooe\Connector\Helper\Data $configData
+	 * @param \Nooe\Connector\Logger\Logger $logger
 	 */
 	public function __construct(
-		\Nooe\M2Connector\Helper\Data $helperData,
-		\Nooe\M2Connector\Model\Connector $connector,
+		\Nooe\Connector\Helper\Data $helperData,
+		\Nooe\Connector\Model\Connector $connector,
 		\Magento\Store\Model\StoreManagerInterface $storeManager,
 		\Magento\CatalogInventory\Model\StockRegistry $stockRegistry,
 		\Magento\Catalog\Model\ProductRepository $productRepository,
 		\Magento\ConfigurableProduct\Api\LinkManagementInterface $linkManagement,
-		\Nooe\M2Connector\Helper\Data $configData,
-		\Nooe\M2Connector\Logger\Logger $logger
+		\Nooe\Connector\Helper\Data $configData,
+		\Nooe\Connector\Logger\Logger $logger
 	) {
 		$this->helperData = $helperData;
 		$this->connector = $connector;

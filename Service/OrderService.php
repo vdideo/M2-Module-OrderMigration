@@ -2,7 +2,7 @@
 
 /**
  * @category    Nooe
- * @package     Nooe_M2_Connector
+ * @package     Nooe_Connector
  * @author      NOOE Team <dev@nooestores.com>
  * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
@@ -10,14 +10,14 @@
 
 declare(strict_types=1);
 
-namespace Nooe\M2Connector\Service;
+namespace Nooe\Connector\Service;
 
 use Exception;
 
 class OrderService
 {
 	/**
-	 * @var \Nooe\M2Connector\Model\Order
+	 * @var \Nooe\Connector\Model\Order
 	 */
 	private $order;
 
@@ -27,35 +27,35 @@ class OrderService
 	protected $productFactory;
 
 	/**
-	 * @var \Nooe\M2Connector\Helper\Data $configData
+	 * @var \Nooe\Connector\Helper\Data $configData
 	 */
 	protected $configData;
 
 	/**
-	 * @var \Nooe\M2Connector\Logger\Logger $logger
+	 * @var \Nooe\Connector\Logger\Logger $logger
 	 */
 	private $logger;
 
 	/**
-	 * @var \Nooe\M2Connector\Helper\Sync
+	 * @var \Nooe\Connector\Helper\Sync
 	 */
 	private $syncHelper;
 
 	/**
 	 * OrderService constructor.
 	 *
-	 * @param \Nooe\M2Connector\Model\Order $order
+	 * @param \Nooe\Connector\Model\Order $order
 	 * @param \Magento\Catalog\Model\ProductFactory $productFactory
-	 * @param \Nooe\M2Connector\Helper\Data $configData
-	 * @param \Nooe\M2Connector\Logger\Logger $logger
-	 * @param \Nooe\M2Connector\Helper\Sync $syncHelper
+	 * @param \Nooe\Connector\Helper\Data $configData
+	 * @param \Nooe\Connector\Logger\Logger $logger
+	 * @param \Nooe\Connector\Helper\Sync $syncHelper
 	 */
 	public function __construct(
-		\Nooe\M2Connector\Model\Order $order,
+		\Nooe\Connector\Model\Order $order,
 		\Magento\Catalog\Model\ProductFactory $productFactory,
-		\Nooe\M2Connector\Helper\Data $configData,
-		\Nooe\M2Connector\Logger\Logger $logger,
-		\Nooe\M2Connector\Helper\Sync $syncHelper
+		\Nooe\Connector\Helper\Data $configData,
+		\Nooe\Connector\Logger\Logger $logger,
+		\Nooe\Connector\Helper\Sync $syncHelper
 	) {
 		$this->order = $order;
 		$this->productFactory = $productFactory;

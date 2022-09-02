@@ -1,5 +1,5 @@
 {
-    "name": "nooe/module-m2-connector",
+    "name": "nooe/module-connector",
     "description": "Nooe Magento 2 Connector",
     "require": {
         "php": ">=7.1.0"
@@ -8,16 +8,16 @@
     "version": "1.0.0",
     "license": "proprietary",
     "authors": [{
-        "name": "Tun2U",
-        "email": "dev@tun2u.com",
-        "homepage": "https://www.tun2u.com"
+        "name": "NOOE",
+        "email": "info@nooestores.com",
+        "homepage": "https://www.nooestores.com"
     }],
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "Nooe\\M2Connector\\": ""
+            "Nooe\\Connector\\": ""
         }
     }
 }

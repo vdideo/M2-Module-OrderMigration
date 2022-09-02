@@ -2,7 +2,7 @@
 
 /**
  * @category    Nooe
- * @package     Nooe_M2_Connector
+ * @package     Nooe_Connector
  * @author      NOOE Team <dev@nooestores.com>
  * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Nooe\M2Connector\Model;
+namespace Nooe\Connector\Model;
 
 use Exception;
 use GuzzleHttp\Client;
@@ -19,7 +19,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ResponseFactory;
 use Magento\Framework\Webapi\Rest\Request;
-use Nooe\M2Connector\Helper\Data;
+use Nooe\Connector\Helper\Data;
 
 /**
  * Class Connector

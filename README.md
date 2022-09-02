@@ -21,7 +21,7 @@ Follow the instruction below if you want to install NOOE for Magento 2 using Git
 
 1.A) Clone the git repository in the Magento 2 `app/code` folder using:
 
-    git clone git@github.com:Tun2U/Nooe-M2Connector.git Nooe/Connector
+    git clone git@github.com:Tun2U/Nooe-M2-Connector.git Nooe/Connector
 
 In case you wish to contribute to the plugin, fork the `dev` branch rather than cloning it, and create a pull request via Github. For further information please read the section "Become a contributor" of this document.
 

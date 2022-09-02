@@ -2,13 +2,13 @@
 
 /**
  * @category    Nooe
- * @package     Nooe_M2_Connector
+ * @package     Nooe_Connector
  * @author      NOOE Team <dev@nooestores.com>
  * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\M2Connector\Console\Command;
+namespace Nooe\Connector\Console\Command;
 
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -76,22 +76,22 @@ class Sync extends Command
 	private $registry;
 
 	/**
-	 * @var \Nooe\M2Connector\Service\OrderService
+	 * @var \Nooe\Connector\Service\OrderService
 	 */
 	private $orderService;
 
 	/**
-	 * @var \Nooe\M2Connector\Service\ProductService
+	 * @var \Nooe\Connector\Service\ProductService
 	 */
 	private $productService;
 
 	/**
-	 * @var \Nooe\M2Connector\Helper\Sync
+	 * @var \Nooe\Connector\Helper\Sync
 	 */
 	private $syncHelper;
 
 	/**
-	 * @var \Nooe\M2Connector\Helper\Data $configData
+	 * @var \Nooe\Connector\Helper\Data $configData
 	 */
 	private $configData;
 
@@ -109,10 +109,10 @@ class Sync extends Command
 	 * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
 	 * @param \Magento\Framework\App\State $state
 	 * @param \Magento\Framework\Registry $registry
-	 * @param \Nooe\M2Connector\Service\OrderService $orderService
-	 * @param \Nooe\M2Connector\Service\ProductService $productService
-	 * @param \Nooe\M2Connector\Helper\Sync $syncHelper
-	 * @param \Nooe\M2Connector\Helper\Data $configData
+	 * @param \Nooe\Connector\Service\OrderService $orderService
+	 * @param \Nooe\Connector\Service\ProductService $productService
+	 * @param \Nooe\Connector\Helper\Sync $syncHelper
+	 * @param \Nooe\Connector\Helper\Data $configData
 	 */
 	public function __construct(
 		\Magento\Store\Model\StoreManagerInterface $storeManagerInterface,
@@ -126,10 +126,10 @@ class Sync extends Command
 		\Magento\Framework\Api\FilterBuilder $filterBuilder,
 		\Magento\Framework\App\State $state,
 		\Magento\Framework\Registry $registry,
-		\Nooe\M2Connector\Service\OrderService $orderService,
-		\Nooe\M2Connector\Service\ProductService $productService,
-		\Nooe\M2Connector\Helper\Sync $syncHelper,
-		\Nooe\M2Connector\Helper\Data $configData
+		\Nooe\Connector\Service\OrderService $orderService,
+		\Nooe\Connector\Service\ProductService $productService,
+		\Nooe\Connector\Helper\Sync $syncHelper,
+		\Nooe\Connector\Helper\Data $configData
 	) {
 		$state->setAreaCode('adminhtml');
 		$registry->register('isSecureArea', true);

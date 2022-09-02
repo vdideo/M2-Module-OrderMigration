@@ -2,7 +2,7 @@
 <!--
 /**
  * @category    Nooe
- * @package     Nooe_M2_Connector
+ * @package     Nooe_Connector
  * @author      NOOE Team <dev@nooestores.com>
  * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
@@ -12,23 +12,23 @@
 	<type name="Magento\Framework\Console\CommandList">
 		<arguments>
 			<argument name="commands" xsi:type="array">
-				<item name="Nooe_M2_Connector_Sync" xsi:type="object">Nooe\M2Connector\Console\Command\Sync</item>
+				<item name="Nooe_Connector_Sync" xsi:type="object">Nooe\Connector\Console\Command\Sync</item>
 			</argument>
 		</arguments>
 	</type>
 	<type name="Magento\Shipping\Model\Shipping">
-		<plugin disabled="false" name="Nooe_M2_Connector_Model_Shipping" sortOrder="10" type="Nooe\M2Connector\Plugin\ApplyShipping"/>
+		<plugin disabled="false" name="Nooe_Connector_Model_Shipping" sortOrder="10" type="Nooe\Connector\Plugin\ApplyShipping"/>
 	</type>
-	<type name="Nooe\M2Connector\Logger\Handler">
+	<type name="Nooe\Connector\Logger\Handler">
 		<arguments>
 			<argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
 		</arguments>
 	</type>
-	<type name="Nooe\M2Connector\Logger\Logger">
+	<type name="Nooe\Connector\Logger\Logger">
 		<arguments>
 			<argument name="name" xsi:type="string">NOOELogger</argument>
 			<argument name="handlers" xsi:type="array">
-				<item name="system" xsi:type="object">Nooe\M2Connector\Logger\Handler</item>
+				<item name="system" xsi:type="object">Nooe\Connector\Logger\Handler</item>
 			</argument>
 		</arguments>
 	</type>

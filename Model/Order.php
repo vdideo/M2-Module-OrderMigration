@@ -2,16 +2,16 @@
 
 /**
  * @category    Nooe
- * @package     Nooe_M2_Connector
+ * @package     Nooe_Connector
  * @author      NOOE Team <dev@nooestores.com>
  * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\M2Connector\Model;
+namespace Nooe\Connector\Model;
 
 use Exception;
-use Nooe\M2Connector\Api\OrderInterface;
+use Nooe\Connector\Api\OrderInterface;
 
 class Order implements OrderInterface
 {
@@ -21,17 +21,17 @@ class Order implements OrderInterface
 	const API_REQUEST_ENDPOINT = 'orders';
 
 	/**
-	 * @var \Nooe\M2Connector\Helper\Data
+	 * @var \Nooe\Connector\Helper\Data
 	 */
 	private $helperData;
 
 	/**
-	 * @var \Nooe\M2Connector\Model\Connector
+	 * @var \Nooe\Connector\Model\Connector
 	 */
 	private $connector;
 
 	/**
-	 * @var \Nooe\M2Connector\Logger\Logger
+	 * @var \Nooe\Connector\Logger\Logger
 	 */
 	private $logger;
 
@@ -71,15 +71,15 @@ class Order implements OrderInterface
 	protected $rate;
 
 	/**
-	 * @var \Nooe\M2Connector\Helper\Data
+	 * @var \Nooe\Connector\Helper\Data
 	 */
 	protected $configData;
 
 	/**
 	 * Order constructor.
 	 *
-	 * @param \Nooe\M2Connector\Helper\Data $helperData
-	 * @param \Nooe\M2Connector\Model\Connector $connector
+	 * @param \Nooe\Connector\Helper\Data $helperData
+	 * @param \Nooe\Connector\Model\Connector $connector
 	 * @param \Magento\Store\Model\StoreManagerInterface $storeManager
 	 * @param \Magento\Customer\Model\CustomerFactory $customerFactory
 	 * @param \Magento\Quote\Model\QuoteFactory $quote
@@ -87,12 +87,12 @@ class Order implements OrderInterface
 	 * @param \Magento\Catalog\Model\Product $product
 	 * @param \Magento\Quote\Model\QuoteManagement $quoteManagement
 	 * @param \Magento\Quote\Model\Quote\Address\Rate $rate
-	 * @param \Nooe\M2Connector\Helper\Data $configData
-	 * @param \Nooe\M2Connector\Logger\Logger $logger
+	 * @param \Nooe\Connector\Helper\Data $configData
+	 * @param \Nooe\Connector\Logger\Logger $logger
 	 */
 	public function __construct(
-		\Nooe\M2Connector\Helper\Data $helperData,
-		\Nooe\M2Connector\Model\Connector $connector,
+		\Nooe\Connector\Helper\Data $helperData,
+		\Nooe\Connector\Model\Connector $connector,
 		\Magento\Store\Model\StoreManagerInterface $storeManager,
 		\Magento\Customer\Model\CustomerFactory $customerFactory,
 		\Magento\Quote\Model\QuoteFactory $quote,
@@ -100,8 +100,8 @@ class Order implements OrderInterface
 		\Magento\Catalog\Model\Product $product,
 		\Magento\Quote\Model\QuoteManagement $quoteManagement,
 		\Magento\Quote\Model\Quote\Address\Rate $rate,
-		\Nooe\M2Connector\Helper\Data $configData,
-		\Nooe\M2Connector\Logger\Logger $logger
+		\Nooe\Connector\Helper\Data $configData,
+		\Nooe\Connector\Logger\Logger $logger
 	) {
 		$this->helperData = $helperData;
 		$this->connector = $connector;
