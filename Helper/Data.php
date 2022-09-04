@@ -15,38 +15,44 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	/**
 	 * XML path for Access Token.
 	 */
-	const ACCESS_TOKEN = 'connector/connector_settings/access_token';
+	const ACCESS_TOKEN = 'nooe_connector/settings/access_token';
 	/**
 	 * XML path for Store Code.
 	 */
-	const STORE_CODE = 'connector/connector_settings/store_code';
+	const STORE_CODE = 'nooe_connector/settings/store_code';
 	/**
 	 * XML path for Start Date. Defines the start date for synchronization.
 	 */
-	const START_DATE = 'connector/connector_settings/start_date';
+	const START_DATE = 'nooe_connector/settings/start_date';
 	/**
 	 * XML path for order Increment ID. Contains the increment id of the last synchronized order.
 	 */
-	const INCREMENT_ID = 'connector/connector_settings/increment_id';
+	const INCREMENT_ID = 'nooe_connector/settings/increment_id';
 	/**
 	 * XML path for Order ID. Contains the ID of the last synchronized order.
 	 */
-	const ORDER_ID = 'connector/connector_settings/order_id';
+	const ORDER_ID = 'nooe_connector/settings/order_id';
 	/**
 	 * XML path for Order Prefix.
 	 * Defines a prefix for 'increment_id' with which orders will be saved during synchronization.
 	 */
-	const ORDER_PREFIX = 'connector/connector_settings/order_prefix';
+	const ORDER_PREFIX = 'nooe_connector/settings/order_prefix';
 	/**
 	 * XML path for Product SKU.
 	 * Defines a product SKU for stock synchronization.
 	 */
-	const PRODUCT_SKU = 'connector/connector_settings/product_sku';
+	const PRODUCT_SKU = 'nooe_connector/settings/product_sku';
 
 	/**
 	 * @var \Magento\Framework\App\Config\Storage\WriterInterface
 	 */
 	private $_configWriter;
+
+	/**
+	 * @var \Magento\Config\Model\ResourceModel\Config\Data\CollectionFactory
+	 */
+	protected $scopeCollectionFactory;
+
 
 	/**
 	 * Data constructor.
@@ -58,10 +64,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	public function __construct(
 		\Magento\Framework\App\Helper\Context $context,
 		\Magento\Store\Model\StoreManagerInterface $storeManager,
-		\Magento\Framework\App\Config\Storage\WriterInterface $configWriter
+		\Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
+		\Magento\Config\Model\ResourceModel\Config\Data\CollectionFactory $scopeCollectionFactory
 	) {
 		$this->_storeManager = $storeManager;
 		$this->_configWriter = $configWriter;
+		$this->scopeCollectionFactory = $scopeCollectionFactory;
 		parent::__construct($context);
 	}
 
@@ -73,8 +81,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	 */
 	private function getConfig($config_path, $store = null)
 	{
-		$store = $this->_storeManager->getStore($store);
-		$result = $this->scopeConfig->getValue($config_path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+		$storeId = $store ? $store : 0;
+		$config = $this->scopeCollectionFactory->create();
+		$result = $config->addFieldToFilter('path', ['eq' => $config_path])->addFieldToFilter('scope', ['eq' => $storeId])->getFirstItem()->getValue();
+
+		// Get cached config values
+		// $store = $this->_storeManager->getStore($store);
+		// $result = $this->scopeConfig->getValue($config_path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
 		return $result;
 	}
 

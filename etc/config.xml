@@ -10,8 +10,8 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
 	<default>
-		<Nooe_Connector>
-			<general>
+		<nooe_connector>
+			<settings>
 				<access_token></access_token>
 				<store_code></store_code>
 				<order_prefix>NOOE-</order_prefix>
@@ -20,8 +20,8 @@
 				<order_id>0</order_id>
 				<product_sku></product_sku>
 				<debug_mode>0</debug_mode>
-			</general>
-		</Nooe_Connector>
+			</settings>
+		</nooe_connector>
 		<payment>
 			<nooe_payments>
 				<active>1</active>
