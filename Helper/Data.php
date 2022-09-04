@@ -49,6 +49,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	private $_configWriter;
 
 	/**
+	 * @var \Magento\Config\Model\ResourceModel\Config\Data\CollectionFactory
+	 */
+	protected $scopeCollectionFactory;
+
+
+	/**
 	 * Data constructor.
 	 *
 	 * @param \Magento\Framework\App\Helper\Context $context
@@ -58,10 +64,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	public function __construct(
 		\Magento\Framework\App\Helper\Context $context,
 		\Magento\Store\Model\StoreManagerInterface $storeManager,
-		\Magento\Framework\App\Config\Storage\WriterInterface $configWriter
+		\Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
+		\Magento\Config\Model\ResourceModel\Config\Data\CollectionFactory $scopeCollectionFactory
 	) {
 		$this->_storeManager = $storeManager;
 		$this->_configWriter = $configWriter;
+		$this->scopeCollectionFactory = $scopeCollectionFactory;
 		parent::__construct($context);
 	}
 
@@ -73,8 +81,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	 */
 	private function getConfig($config_path, $store = null)
 	{
-		$store = $this->_storeManager->getStore($store);
-		$result = $this->scopeConfig->getValue($config_path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+		$storeId = $store ? $store : 0;
+		$config = $this->scopeCollectionFactory->create();
+		$result = $config->addFieldToFilter('path', ['eq' => $config_path])->addFieldToFilter('scope', ['eq' => $storeId])->getFirstItem()->getValue();
+
+		// Get cached config values
+		// $store = $this->_storeManager->getStore($store);
+		// $result = $this->scopeConfig->getValue($config_path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
 		return $result;
 	}
 
