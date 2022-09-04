@@ -275,8 +275,6 @@ class Order implements OrderInterface
 
 				if ($allOrders && isset($allOrders->items) && count($allOrders->items)) {
 					return $allOrders->items;
-				} else {
-					$this->configData->setStartDate($toDate);
 				}
 			} catch (Exception $e) {
 				$this->logger->error($e->getMessage());
