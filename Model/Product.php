@@ -149,14 +149,13 @@ class Product implements ProductInterface
 
 					echo "\n";
 				} catch (Exception $e) {
-
-					throw new Exception($e->getMessage());
 					$this->logger->error($e->getMessage());
+					throw new Exception($e->getMessage());
 				}
 			}
 		} catch (Exception $e) {
-			throw new Exception($e->getMessage());
 			$this->logger->error($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
 

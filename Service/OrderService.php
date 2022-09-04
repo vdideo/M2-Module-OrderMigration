@@ -103,8 +103,8 @@ class OrderService
 								if (!empty($stockItem)) {
 									if (!$stockItem->getIsInStock() || $stockItem->getQty() < $item->qty_ordered) {
 										$errorMessage = "[ERROR] ORDER: " . $order->increment_id . " - Quantity not available or out of stock for the SKU " . $item->sku;
-										throw new Exception($errorMessage);
 										$this->logger->error($errorMessage);
+										throw new Exception($errorMessage);
 									} else {
 
 										$qty = $item->qty_ordered;
@@ -122,13 +122,13 @@ class OrderService
 									}
 								} else {
 									$errorMessage = "[ERROR] ORDER: " . $order->increment_id . " - Unable to verify quantity for SKU " . $item->sku;
-									throw new Exception($errorMessage);
 									$this->logger->error($errorMessage);
+									throw new Exception($errorMessage);
 								}
 							} else {
 								$errorMessage = "[ERROR] ORDER: " . $order->increment_id . " - SKU " . $item->sku . " not exist";
-								throw new Exception($errorMessage);
 								$this->logger->error($errorMessage);
+								throw new Exception($errorMessage);
 							}
 						}
 					}
@@ -204,16 +204,14 @@ class OrderService
 						$this->configData->setStartDate($localOrder['order_date']);
 						$this->configData->setIncrementId($localOrder['increment_id']);
 						$this->configData->setOrderId($localOrder['order_id']);
-
 						$this->logger->info($result['message']);
-						die();
 					} else {
-						throw new Exception($result['message']);
 						$this->logger->error("ORDER: " . $order->increment_id . " - " . $result['message']);
+						throw new Exception($result['message']);
 					}
 				} catch (Exception $e) {
-					throw new Exception($e->getMessage());
 					$this->logger->error("ORDER: " . $order->increment_id . " - " . $e->getMessage());
+					throw new Exception($e->getMessage());
 				}
 			}
 		}
