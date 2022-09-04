@@ -13,12 +13,12 @@
 		<tab id="nooe" translate="label" sortOrder="400">
 			<label>Nooe</label>
 		</tab>
-		<section id="connector" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="nooe_connector" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 			<class>separator-top</class>
 			<label>Connector</label>
 			<tab>nooe</tab>
 			<resource>Nooe_Connector::config_connector</resource>
-			<group id="connector_settings" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="settings" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>NOOE Connector Settings</label>
 				<field id="access_token" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Access Token</label>

@@ -15,33 +15,33 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	/**
 	 * XML path for Access Token.
 	 */
-	const ACCESS_TOKEN = 'connector/connector_settings/access_token';
+	const ACCESS_TOKEN = 'nooe_connector/settings/access_token';
 	/**
 	 * XML path for Store Code.
 	 */
-	const STORE_CODE = 'connector/connector_settings/store_code';
+	const STORE_CODE = 'nooe_connector/settings/store_code';
 	/**
 	 * XML path for Start Date. Defines the start date for synchronization.
 	 */
-	const START_DATE = 'connector/connector_settings/start_date';
+	const START_DATE = 'nooe_connector/settings/start_date';
 	/**
 	 * XML path for order Increment ID. Contains the increment id of the last synchronized order.
 	 */
-	const INCREMENT_ID = 'connector/connector_settings/increment_id';
+	const INCREMENT_ID = 'nooe_connector/settings/increment_id';
 	/**
 	 * XML path for Order ID. Contains the ID of the last synchronized order.
 	 */
-	const ORDER_ID = 'connector/connector_settings/order_id';
+	const ORDER_ID = 'nooe_connector/settings/order_id';
 	/**
 	 * XML path for Order Prefix.
 	 * Defines a prefix for 'increment_id' with which orders will be saved during synchronization.
 	 */
-	const ORDER_PREFIX = 'connector/connector_settings/order_prefix';
+	const ORDER_PREFIX = 'nooe_connector/settings/order_prefix';
 	/**
 	 * XML path for Product SKU.
 	 * Defines a product SKU for stock synchronization.
 	 */
-	const PRODUCT_SKU = 'connector/connector_settings/product_sku';
+	const PRODUCT_SKU = 'nooe_connector/settings/product_sku';
 
 	/**
 	 * @var \Magento\Framework\App\Config\Storage\WriterInterface
