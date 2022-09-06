@@ -11,6 +11,7 @@
 namespace Nooe\Connector\Logger;
 
 use \Nooe\Connector\Helper\Data as ConfigData;
+use \Monolog\DateTimeImmutable;
 
 class Logger extends \Monolog\Logger
 {
