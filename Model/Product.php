@@ -60,6 +60,12 @@ class Product implements ProductInterface
 	 */
 	private $configData;
 
+
+	/**
+	 * @var \Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku
+	 */
+	private $getSalableQuantityDataBySku;
+
 	/**
 	 * Order constructor.
 	 *
@@ -67,10 +73,11 @@ class Product implements ProductInterface
 	 * @param \Nooe\Connector\Model\Connector $connector
 	 * @param \Magento\Store\Model\StoreManagerInterface $storeManager
 	 * @param \Magento\CatalogInventory\Model\StockRegistry $stockRegistry
-	 * @param \Magento\Catalog\Model\ProductRepository $productRepository,
-	 * @param \Magento\ConfigurableProduct\Api\LinkManagementInterface $linkManagement,
+	 * @param \Magento\Catalog\Model\ProductRepository $productRepository
+	 * @param \Magento\ConfigurableProduct\Api\LinkManagementInterface $linkManagement
 	 * @param \Nooe\Connector\Helper\Data $configData
 	 * @param \Nooe\Connector\Logger\Logger $logger
+	 * @param \Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku $getSalableQuantityDataBySku
 	 */
 	public function __construct(
 		\Nooe\Connector\Helper\Data $helperData,
@@ -80,7 +87,8 @@ class Product implements ProductInterface
 		\Magento\Catalog\Model\ProductRepository $productRepository,
 		\Magento\ConfigurableProduct\Api\LinkManagementInterface $linkManagement,
 		\Nooe\Connector\Helper\Data $configData,
-		\Nooe\Connector\Logger\Logger $logger
+		\Nooe\Connector\Logger\Logger $logger,
+		\Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku $getSalableQuantityDataBySku
 	) {
 		$this->helperData = $helperData;
 		$this->connector = $connector;
@@ -90,6 +98,7 @@ class Product implements ProductInterface
 		$this->_linkManagement = $linkManagement;
 		$this->configData = $configData;
 		$this->logger = $logger;
+		$this->getSalableQuantityDataBySku = $getSalableQuantityDataBySku;
 	}
 
 	/**
@@ -160,10 +169,19 @@ class Product implements ProductInterface
 	}
 
 	private function getStockBySku($sku)
-	{
+	{	
 		$stockStatus = $this->stockRegistry->getStockStatusBySku($sku, $this->_storeManager->getWebsite()->getId());
 		$stockData = $stockStatus->getStockItem()->getData();
 
+		if ($this->configData->getSalableQuantity()) {
+			$salableQty = $this->getSalableQuantityDataBySku->execute($sku);
+
+			if (count($salableQty)) {
+				$salableQty[0]['type_id'] = $stockData['type_id'];
+				$stockData = $salableQty[0];
+			}
+		}
+		
 		return $stockData;
 	}
 }
