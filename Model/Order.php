@@ -122,6 +122,7 @@ class Order implements OrderInterface
 	public function create($orderData)
 	{
 		$store = $this->_storeManager->getStore();
+		$storeId = $store->getId();
 		$websiteId = $this->_storeManager->getStore()->getWebsiteId();
 		$customer = $this->customerFactory->create();
 		$customer->setWebsiteId($websiteId);
@@ -208,7 +209,7 @@ class Order implements OrderInterface
 
 		$order->setEmailSent(1);
 		if ($order->getEntityId()) {
-			$prefix = (string)$this->configData->getOrderPrefix();
+			$prefix = (string)$this->configData->getOrderPrefix($storeId);
 			$incrementId = trim($prefix) . $order->getIncrementId();
 			$order->setIncrementId($incrementId);
 			//TODO: valurare se settare la stessa data di NOOE o lasciare la data di inserimento (crea difficoltà nel trovare l'ordine dato l'increment sequenziale che pero non segue la data)
