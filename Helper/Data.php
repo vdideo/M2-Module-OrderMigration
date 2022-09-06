@@ -16,32 +16,50 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	 * XML path for Access Token.
 	 */
 	const ACCESS_TOKEN = 'nooe_connector/settings/access_token';
+
 	/**
 	 * XML path for Store Code.
 	 */
 	const STORE_CODE = 'nooe_connector/settings/store_code';
+
 	/**
 	 * XML path for Start Date. Defines the start date for synchronization.
 	 */
 	const START_DATE = 'nooe_connector/settings/start_date';
+
 	/**
 	 * XML path for order Increment ID. Contains the increment id of the last synchronized order.
 	 */
 	const INCREMENT_ID = 'nooe_connector/settings/increment_id';
+
 	/**
 	 * XML path for Order ID. Contains the ID of the last synchronized order.
 	 */
 	const ORDER_ID = 'nooe_connector/settings/order_id';
+
 	/**
 	 * XML path for Order Prefix.
 	 * Defines a prefix for 'increment_id' with which orders will be saved during synchronization.
 	 */
 	const ORDER_PREFIX = 'nooe_connector/settings/order_prefix';
+
 	/**
 	 * XML path for Product SKU.
 	 * Defines a product SKU for stock synchronization.
 	 */
 	const PRODUCT_SKU = 'nooe_connector/settings/product_sku';
+
+	/**
+	 * XML path for Salable Quantity.
+	 * Get if exist Salable Quantity instead default quantity.
+	 */
+	const SALABLE_QUANTITY = 'nooe_connector/settings/salable_quantity';
+
+	/**
+	 * XML path for Debug Mode.
+	 * Enable the debug mode.
+	 */
+	const DEBUG_MODE = 'nooe_connector/settings/debug_mode';
 
 	/**
 	 * @var \Magento\Framework\App\Config\Storage\WriterInterface
@@ -115,7 +133,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	}
 
 	/**
-	 * Returns store code.
+	 * Returns store code configuration value.
 	 *
 	 * @param null|string|int|\Magento\Store\Api\Data\StoreInterface $storeId
 	 */
@@ -145,7 +163,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	}
 
 	/**
-	 * Returns last synchronized order ID .
+	 * Returns last synchronized order ID.
 	 *
 	 * @param null|string|int|\Magento\Store\Api\Data\StoreInterface $storeId
 	 */
@@ -155,7 +173,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	}
 
 	/**
-	 * Returns order prefix value.
+	 * Returns order prefix configuration value.
 	 *
 	 * @param null|string|int|\Magento\Store\Api\Data\StoreInterface $storeId
 	 */
@@ -165,13 +183,33 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	}
 
 	/**
-	 * Returns product sku value.
+	 * Returns product sku configuration value.
 	 *
 	 * @param null|string|int|\Magento\Store\Api\Data\StoreInterface $storeId
 	 */
 	public function getProductSku($storeId = null)
 	{
 		return $this->getConfig(self::PRODUCT_SKU, $storeId);
+	}
+
+	/**
+	 * Returns salable quantity configuration value.
+	 *
+	 * @param null|string|int|\Magento\Store\Api\Data\StoreInterface $storeId
+	 */
+	public function getSalableQuantity($storeId = null)
+	{
+		return (bool)$this->getConfig(self::SALABLE_QUANTITY, $storeId);
+	}
+
+	/**
+	 * Returns debug mode configuration value.
+	 *
+	 * @param null|string|int|\Magento\Store\Api\Data\StoreInterface $storeId
+	 */
+	public function getDebugMode($storeId = null)
+	{
+		return (bool)$this->getConfig(self::DEBUG_MODE, $storeId);
 	}
 
 	/**
@@ -241,5 +279,25 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	public function setProductSku($value, $storeId = 0)
 	{
 		return $this->writeConfig(self::PRODUCT_SKU, $value, $storeId);
+	}
+
+	/**
+	 * Saves salable quantity config value.
+	 * @param bool|int $value
+	 * @param null|string|bool|int|\Magento\Store\Api\Data\StoreInterface $storeId
+	 */
+	public function setSalableQuantity($storeId = null)
+	{
+		return $this->writeConfig(self::SALABLE_QUANTITY, $value, $storeId);
+	}
+
+	/**
+	 * Saves debug mode config value.
+	 * @param bool|int $value
+	 * @param null|string|bool|int|\Magento\Store\Api\Data\StoreInterface $storeId
+	 */
+	public function setDebugMode($storeId = null)
+	{
+		return $this->writeConfig(self::DEBUG_MODE, $value, $storeId);
 	}
 }

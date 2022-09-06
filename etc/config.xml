@@ -19,6 +19,7 @@
 				<increment_id>0</increment_id>
 				<order_id>0</order_id>
 				<product_sku></product_sku>
+				<salable_quantity>0</salable_quantity>
 				<debug_mode>0</debug_mode>
 			</settings>
 		</nooe_connector>
