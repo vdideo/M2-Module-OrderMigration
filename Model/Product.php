@@ -106,8 +106,8 @@ class Product implements ProductInterface
 	 */
 	public function create($productData)
 	{
-		$store = $this->_storeManager->getStore();
-		$websiteId = $this->_storeManager->getStore()->getWebsiteId();
+		// $store = $this->_storeManager->getStore();
+		// $websiteId = $this->_storeManager->getStore()->getWebsiteId();
 	}
 
 	/**
@@ -136,10 +136,6 @@ class Product implements ProductInterface
 			}
 
 			foreach ($stockUpdateSkus as $sku => $qty) {
-				// $product = $this->connector->doRequest(self::API_REQUEST_ENDPOINT . '/' . $sku);
-				// var_dump($productStockItem);
-				// die();
-
 				echo ' |- ' . $sku . " (simple): " . $qty;
 
 				try {
@@ -169,11 +165,12 @@ class Product implements ProductInterface
 	}
 
 	private function getStockBySku($sku)
-	{	
+	{
+		$storeId = $this->_storeManager->getStore()->getId();
 		$stockStatus = $this->stockRegistry->getStockStatusBySku($sku, $this->_storeManager->getWebsite()->getId());
 		$stockData = $stockStatus->getStockItem()->getData();
 
-		if ($this->configData->getSalableQuantity()) {
+		if ($this->configData->getSalableQuantity($storeId)) {
 			$salableQty = $this->getSalableQuantityDataBySku->execute($sku);
 
 			if (count($salableQty)) {
@@ -181,7 +178,7 @@ class Product implements ProductInterface
 				$stockData = $salableQty[0];
 			}
 		}
-		
+
 		return $stockData;
 	}
 }
