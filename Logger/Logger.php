@@ -24,7 +24,7 @@ class Logger extends \Monolog\Logger
 	/**
 	 * @param ConfigData $configData
 	 */
-	public function __construct(ConfigData $configData)
+	public function __construct(string $name, array $handlers = [], array $processors = [], ?DateTimeZone $timezone = null, ConfigData $configData)
 	{
 		$this->configData = $configData;
 		parent::__construct($name, $handlers, $processors, $timezone);
