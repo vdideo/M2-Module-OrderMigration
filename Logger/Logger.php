@@ -51,7 +51,7 @@ class Logger extends \Monolog\Logger
 	public function addRecord(int $level, string $message, array $context = [], DateTimeImmutable $datetime = null): bool
 	{
 		if (!$this->configData->getDebugMode()) {
-			return null;
+			return false;
 		}
 
 		return parent::addRecord($level, $message, $context, $datetime);
