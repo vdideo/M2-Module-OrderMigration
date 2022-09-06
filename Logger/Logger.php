@@ -12,7 +12,7 @@ namespace Nooe\Connector\Logger;
 
 use \Nooe\Connector\Helper\Data as ConfigData;
 use \Monolog\DateTimeImmutable;
-use \Monolog\DateTimeZone;
+use DateTimeZone;
 
 class Logger extends \Monolog\Logger
 {
