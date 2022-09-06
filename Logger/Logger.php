@@ -21,21 +21,12 @@ class Logger extends \Monolog\Logger
 	protected $configData;
 
 	/**
-	 * @psalm-param array<callable(array): array> $processors
-	 *
-	 * @param string             $name       The logging channel, a simple descriptive name that is attached to all log records
-	 * @param HandlerInterface[] $handlers   Optional stack of handlers, the first one in the array is called first, etc.
-	 * @param callable[]         $processors Optional array of processors
-	 * @param DateTimeZone|null  $timezone   Optional timezone, if not provided date_default_timezone_get() will be used
-	 * @param \Nooe\Connector\Helper\Data $configData
+	 * @param ConfigData $configData
 	 */
-	public function __construct(string $name, array $handlers = [], array $processors = [], ?DateTimeZone $timezone = null, ConfigData $configData)
+	public function __construct(ConfigData $configData)
 	{
-		$this->name = $name;
-		$this->setHandlers($handlers);
-		$this->processors = $processors;
-		$this->timezone = $timezone ?: new DateTimeZone(date_default_timezone_get() ?: 'UTC');
 		$this->configData = $configData;
+		parent::__construct($name, $handlers, $processors, $timezone);
 	}
 
 	/**
