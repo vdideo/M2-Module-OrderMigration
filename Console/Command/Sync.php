@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Console\Command;
+namespace Tun2U\OrderMigration\Console\Command;
 
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -76,22 +76,22 @@ class Sync extends Command
 	private $registry;
 
 	/**
-	 * @var \Nooe\Connector\Service\OrderService
+	 * @var \Tun2U\OrderMigration\Service\OrderService
 	 */
 	private $orderService;
 
 	/**
-	 * @var \Nooe\Connector\Service\ProductService
+	 * @var \Tun2U\OrderMigration\Service\ProductService
 	 */
 	private $productService;
 
 	/**
-	 * @var \Nooe\Connector\Helper\Sync
+	 * @var \Tun2U\OrderMigration\Helper\Sync
 	 */
 	private $syncHelper;
 
 	/**
-	 * @var \Nooe\Connector\Helper\Data $configData
+	 * @var \Tun2U\OrderMigration\Helper\Data $configData
 	 */
 	private $configData;
 
@@ -109,10 +109,10 @@ class Sync extends Command
 	 * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
 	 * @param \Magento\Framework\App\State $state
 	 * @param \Magento\Framework\Registry $registry
-	 * @param \Nooe\Connector\Service\OrderService $orderService
-	 * @param \Nooe\Connector\Service\ProductService $productService
-	 * @param \Nooe\Connector\Helper\Sync $syncHelper
-	 * @param \Nooe\Connector\Helper\Data $configData
+	 * @param \Tun2U\OrderMigration\Service\OrderService $orderService
+	 * @param \Tun2U\OrderMigration\Service\ProductService $productService
+	 * @param \Tun2U\OrderMigration\Helper\Sync $syncHelper
+	 * @param \Tun2U\OrderMigration\Helper\Data $configData
 	 */
 	public function __construct(
 		\Magento\Store\Model\StoreManagerInterface $storeManagerInterface,
@@ -126,10 +126,10 @@ class Sync extends Command
 		\Magento\Framework\Api\FilterBuilder $filterBuilder,
 		\Magento\Framework\App\State $state,
 		\Magento\Framework\Registry $registry,
-		\Nooe\Connector\Service\OrderService $orderService,
-		\Nooe\Connector\Service\ProductService $productService,
-		\Nooe\Connector\Helper\Sync $syncHelper,
-		\Nooe\Connector\Helper\Data $configData
+		\Tun2U\OrderMigration\Service\OrderService $orderService,
+		\Tun2U\OrderMigration\Service\ProductService $productService,
+		\Tun2U\OrderMigration\Helper\Sync $syncHelper,
+		\Tun2U\OrderMigration\Helper\Data $configData
 	) {
 		$state->setAreaCode('adminhtml');
 		$registry->register('isSecureArea', true);
@@ -157,7 +157,7 @@ class Sync extends Command
 	 */
 	protected function configure()
 	{
-		$this->setName('nooe:sync')
+		$this->setName('tun2u:sync')
 			->setDescription('Sync')
 			->addOption('action', "action", InputOption::VALUE_OPTIONAL, "Specific Action")
 			->addOption('increment', "increment", InputOption::VALUE_OPTIONAL, "Specific Increment Id");

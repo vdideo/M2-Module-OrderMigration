@@ -1,23 +1,23 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
 declare(strict_types=1);
 
-namespace Nooe\Connector\Service;
+namespace Tun2U\OrderMigration\Service;
 
 use Exception;
 
 class OrderService
 {
 	/**
-	 * @var \Nooe\Connector\Model\Order
+	 * @var \Tun2U\OrderMigration\Model\Order
 	 */
 	private $order;
 
@@ -27,35 +27,35 @@ class OrderService
 	protected $productFactory;
 
 	/**
-	 * @var \Nooe\Connector\Helper\Data $configData
+	 * @var \Tun2U\OrderMigration\Helper\Data $configData
 	 */
 	protected $configData;
 
 	/**
-	 * @var \Nooe\Connector\Logger\Logger $logger
+	 * @var \Tun2U\OrderMigration\Logger\Logger $logger
 	 */
 	private $logger;
 
 	/**
-	 * @var \Nooe\Connector\Helper\Sync
+	 * @var \Tun2U\OrderMigration\Helper\Sync
 	 */
 	private $syncHelper;
 
 	/**
 	 * OrderService constructor.
 	 *
-	 * @param \Nooe\Connector\Model\Order $order
+	 * @param \Tun2U\OrderMigration\Model\Order $order
 	 * @param \Magento\Catalog\Model\ProductFactory $productFactory
-	 * @param \Nooe\Connector\Helper\Data $configData
-	 * @param \Nooe\Connector\Logger\Logger $logger
-	 * @param \Nooe\Connector\Helper\Sync $syncHelper
+	 * @param \Tun2U\OrderMigration\Helper\Data $configData
+	 * @param \Tun2U\OrderMigration\Logger\Logger $logger
+	 * @param \Tun2U\OrderMigration\Helper\Sync $syncHelper
 	 */
 	public function __construct(
-		\Nooe\Connector\Model\Order $order,
+		\Tun2U\OrderMigration\Model\Order $order,
 		\Magento\Catalog\Model\ProductFactory $productFactory,
-		\Nooe\Connector\Helper\Data $configData,
-		\Nooe\Connector\Logger\Logger $logger,
-		\Nooe\Connector\Helper\Sync $syncHelper
+		\Tun2U\OrderMigration\Helper\Data $configData,
+		\Tun2U\OrderMigration\Logger\Logger $logger,
+		\Tun2U\OrderMigration\Helper\Sync $syncHelper
 	) {
 		$this->order = $order;
 		$this->productFactory = $productFactory;

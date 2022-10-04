@@ -1,27 +1,27 @@
 {
-    "name": "nooe/module-connector",
-    "description": "Nooe Magento 2 Connector",
+    "name": "tun2u/module-order-migration",
+    "description": "Magento 2 Order Migration",
     "type": "magento2-module",
-    "version": "1.0.7",
+    "version": "1.0.0",
     "minimum-stability": "stable",
     "license": "proprietary",
     "require": {
         "php": ">=7.0.0"
     },
     "support": {
-        "email": "dev@nooestores.com"
+        "email": "info@tun2u.com"
     },
     "authors": [{
-        "name": "NOOE",
-        "email": "info@nooestores.com",
-        "homepage": "https://www.nooestores.com"
+        "name": "Tun2U",
+        "email": "info@tun2u.com",
+        "homepage": "https://www.tun2u.com"
     }],
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "Nooe\\Connector\\": ""
+            "Tun2U\\OrderMigration\\": ""
         }
     }
 }

@@ -1,19 +1,19 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Plugin;
+namespace Tun2U\OrderMigration\Plugin;
 
 class ApplyShipping
 {
 	/**
-	 * Disables "nooeshipping" shipping method on the frontend side.
+	 * Disables "tun2ushipping" shipping method on the frontend side.
 	 *
 	 * @param \Magento\Shipping\Model\Shipping $subject
 	 * @param \Closure $proceed
@@ -27,7 +27,7 @@ class ApplyShipping
 		$carrierCode,
 		$request
 	) {
-		if ($carrierCode == 'nooeshipping') {
+		if ($carrierCode == 'tun2ushipping') {
 			return false;
 		}
 

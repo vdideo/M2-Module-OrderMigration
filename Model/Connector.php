@@ -1,16 +1,16 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
 declare(strict_types=1);
 
-namespace Nooe\Connector\Model;
+namespace Tun2U\OrderMigration\Model;
 
 use Exception;
 use GuzzleHttp\Client;
@@ -19,17 +19,17 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ResponseFactory;
 use Magento\Framework\Webapi\Rest\Request;
-use Nooe\Connector\Helper\Data;
+use Tun2U\OrderMigration\Helper\Data;
 
 /**
- * Class Connector
+ * Class OrderMigration
  */
-class Connector
+class OrderMigration
 {
 	/**
 	 * API request URL
 	 */
-	const API_REQUEST_URI = 'https://admin.nooestores.com/rest/V1/NOOE/';
+	const API_REQUEST_URI = 'https://admin.tun2ustores.com/rest/V1/TUN2U/';
 
 	/**
 	 * Request timeout
@@ -52,7 +52,7 @@ class Connector
 	private $helperData;
 
 	/**
-	 * Connector constructor.
+	 * OrderMigration constructor.
 	 *
 	 * @param ClientFactory $clientFactory
 	 * @param ResponseFactory $responseFactory

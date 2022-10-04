@@ -1,30 +1,30 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Cron;
+namespace Tun2U\OrderMigration\Cron;
 
 
 class SyncOrders
 {
 	/**
-	 * @var \Nooe\Connector\Service\OrderService
+	 * @var \Tun2U\OrderMigration\Service\OrderService
 	 */
 	protected $orderService;
 
 	/**
 	 * SyncOrders constructor.
 	 * 
-	 * @param \Nooe\Connector\Service\OrderService $orderService
+	 * @param \Tun2U\OrderMigration\Service\OrderService $orderService
 	 */
 	public function __construct(
-		\Nooe\Connector\Service\OrderService $orderService
+		\Tun2U\OrderMigration\Service\OrderService $orderService
 	) {
 
 		$this->orderService = $orderService;

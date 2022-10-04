@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <!--
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright (c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-	<module name="Nooe_Connector" setup_version="1.0.0">
+	<module name="Tun2U_OrderMigration" schema_version="1.0.0" setup_version="1.0.0">
 		<sequence>
 			<module name="Magento_Store"/>
 			<module name="Magento_Sales"/>

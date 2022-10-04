@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <!--
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
-	<group id="nooe">
-		<job name="nooe_connector_sync_orders" instance="Nooe\Connector\Cron\SyncOrders" method="execute">
+	<group id="tun2u">
+		<job name="tun2u_order_migration_sync_orders" instance="Tun2U\OrderMigration\Cron\SyncOrders" method="execute">
 			<schedule>*/5 * * * *</schedule>
 		</job>
-		<job name="nooe_connector_sync_products" instance="Nooe\Connector\Cron\SyncProducts" method="execute">
+		<job name="tun2u_order_migration_sync_products" instance="Tun2U\OrderMigration\Cron\SyncProducts" method="execute">
 			<schedule>*/10 * * * *</schedule>
 		</job>
 	</group>

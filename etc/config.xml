@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <!--
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
 	<default>
-		<nooe_connector>
+		<tun2u_order_migration>
 			<settings>
 				<access_token></access_token>
 				<store_code></store_code>
-				<order_prefix>NOOE-</order_prefix>
+				<order_prefix>TUN2U-</order_prefix>
 				<start_date></start_date>
 				<increment_id>0</increment_id>
 				<order_id>0</order_id>
@@ -22,28 +22,28 @@
 				<salable_quantity>0</salable_quantity>
 				<debug_mode>0</debug_mode>
 			</settings>
-		</nooe_connector>
+		</tun2u_order_migration>
 		<payment>
-			<nooe_payments>
+			<tun2u_payments>
 				<active>1</active>
-				<model>Nooe\Connector\Model\Payment\NooePayments</model>
+				<model>Tun2U\OrderMigration\Model\Payment\Tun2UPayments</model>
 				<order_status>pending</order_status>
-				<title>Nooe Payments</title>
+				<title>Tun2U Payments</title>
 				<allowspecific>0</allowspecific>
 				<group>Offline</group>
 				<sort_order>100</sort_order>
-			</nooe_payments>
+			</tun2u_payments>
 		</payment>
 		<carriers>
-			<nooe_shipping>
+			<tun2u_shipping>
 				<active>1</active>
-				<title>Nooe Shipping</title>
-				<name>Nooe Shipping Method</name>
+				<title>Tun2U Shipping</title>
+				<name>Tun2U Shipping Method</name>
 				<shipping_cost>0</shipping_cost>
 				<sallowspecific>0</sallowspecific>
 				<sort_order>100</sort_order>
-				<model>Nooe\Connector\Model\Shipping\NooeShipping</model>
-			</nooe_shipping>
+				<model>Tun2U\OrderMigration\Model\Shipping\Tun2UShipping</model>
+			</tun2u_shipping>
 		</carriers>
 	</default>
 </config>

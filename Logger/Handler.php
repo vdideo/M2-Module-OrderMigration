@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Logger;
+namespace Tun2U\OrderMigration\Logger;
 
 use Monolog\Logger;
 
@@ -24,5 +24,5 @@ class Handler extends \Magento\Framework\Logger\Handler\Base
 	 * File name
 	 * @var string
 	 */
-	protected $fileName = '/var/log/nooe_connector.log';
+	protected $fileName = '/var/log/tun2u_order_migration.log';
 }

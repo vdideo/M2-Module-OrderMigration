@@ -1,26 +1,26 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Model\Shipping;
+namespace Tun2U\OrderMigration\Model\Shipping;
 
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Rate\Result;
 
-class NooeShipping extends AbstractCarrier implements CarrierInterface
+class Tun2UShipping extends AbstractCarrier implements CarrierInterface
 {
 	/**
 	 * @var string
 	 */
-	protected $_code = 'nooe_shipping';
+	protected $_code = 'tun2u_shipping';
 
 
 	/**
@@ -34,7 +34,7 @@ class NooeShipping extends AbstractCarrier implements CarrierInterface
 	protected $_rateMethodFactory;
 
 	/**
-	 * NooeShipping constructor.
+	 * Tun2UShipping constructor.
 	 * 
 	 * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
 	 * @param \Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory

@@ -1,16 +1,16 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Logger;
+namespace Tun2U\OrderMigration\Logger;
 
-use \Nooe\Connector\Helper\Data as ConfigData;
+use \Tun2U\OrderMigration\Helper\Data as ConfigData;
 use \Monolog\DateTimeImmutable;
 use DateTimeZone;
 
@@ -18,7 +18,7 @@ class Logger extends \Monolog\Logger
 {
 
 	/**
-	 * @var \Nooe\Connector\Helper\Data
+	 * @var \Tun2U\OrderMigration\Helper\Data
 	 */
 	protected $configData;
 

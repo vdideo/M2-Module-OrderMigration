@@ -1,17 +1,17 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Model;
+namespace Tun2U\OrderMigration\Model;
 
 use Exception;
-use Nooe\Connector\Api\ProductInterface;
+use Tun2U\OrderMigration\Api\ProductInterface;
 
 class Product implements ProductInterface
 {
@@ -21,17 +21,17 @@ class Product implements ProductInterface
 	const API_REQUEST_ENDPOINT = 'products';
 
 	/**
-	 * @var \Nooe\Connector\Helper\Data
+	 * @var \Tun2U\OrderMigration\Helper\Data
 	 */
 	private $helperData;
 
 	/**
-	 * @var \Nooe\Connector\Model\Connector
+	 * @var \Tun2U\OrderMigration\Model\OrderMigration
 	 */
 	private $connector;
 
 	/**
-	 * @var \Nooe\Connector\Logger\Logger
+	 * @var \Tun2U\OrderMigration\Logger\Logger
 	 */
 	private $logger;
 
@@ -56,7 +56,7 @@ class Product implements ProductInterface
 	protected $_linkManagement;
 
 	/**
-	 * @var \Nooe\Connector\Helper\Data
+	 * @var \Tun2U\OrderMigration\Helper\Data
 	 */
 	private $configData;
 
@@ -69,25 +69,25 @@ class Product implements ProductInterface
 	/**
 	 * Order constructor.
 	 *
-	 * @param \Nooe\Connector\Helper\Data $helperData
-	 * @param \Nooe\Connector\Model\Connector $connector
+	 * @param \Tun2U\OrderMigration\Helper\Data $helperData
+	 * @param \Tun2U\OrderMigration\Model\OrderMigration $connector
 	 * @param \Magento\Store\Model\StoreManagerInterface $storeManager
 	 * @param \Magento\CatalogInventory\Model\StockRegistry $stockRegistry
 	 * @param \Magento\Catalog\Model\ProductRepository $productRepository
 	 * @param \Magento\ConfigurableProduct\Api\LinkManagementInterface $linkManagement
-	 * @param \Nooe\Connector\Helper\Data $configData
-	 * @param \Nooe\Connector\Logger\Logger $logger
+	 * @param \Tun2U\OrderMigration\Helper\Data $configData
+	 * @param \Tun2U\OrderMigration\Logger\Logger $logger
 	 * @param \Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku $getSalableQuantityDataBySku
 	 */
 	public function __construct(
-		\Nooe\Connector\Helper\Data $helperData,
-		\Nooe\Connector\Model\Connector $connector,
+		\Tun2U\OrderMigration\Helper\Data $helperData,
+		\Tun2U\OrderMigration\Model\OrderMigration $connector,
 		\Magento\Store\Model\StoreManagerInterface $storeManager,
 		\Magento\CatalogInventory\Model\StockRegistry $stockRegistry,
 		\Magento\Catalog\Model\ProductRepository $productRepository,
 		\Magento\ConfigurableProduct\Api\LinkManagementInterface $linkManagement,
-		\Nooe\Connector\Helper\Data $configData,
-		\Nooe\Connector\Logger\Logger $logger,
+		\Tun2U\OrderMigration\Helper\Data $configData,
+		\Tun2U\OrderMigration\Logger\Logger $logger,
 		\Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku $getSalableQuantityDataBySku
 	) {
 		$this->helperData = $helperData;

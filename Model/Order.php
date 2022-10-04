@@ -1,17 +1,17 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Model;
+namespace Tun2U\OrderMigration\Model;
 
 use Exception;
-use Nooe\Connector\Api\OrderInterface;
+use Tun2U\OrderMigration\Api\OrderInterface;
 
 class Order implements OrderInterface
 {
@@ -21,17 +21,17 @@ class Order implements OrderInterface
 	const API_REQUEST_ENDPOINT = 'orders';
 
 	/**
-	 * @var \Nooe\Connector\Helper\Data
+	 * @var \Tun2U\OrderMigration\Helper\Data
 	 */
 	private $helperData;
 
 	/**
-	 * @var \Nooe\Connector\Model\Connector
+	 * @var \Tun2U\OrderMigration\Model\OrderMigration
 	 */
 	private $connector;
 
 	/**
-	 * @var \Nooe\Connector\Logger\Logger
+	 * @var \Tun2U\OrderMigration\Logger\Logger
 	 */
 	private $logger;
 
@@ -71,15 +71,15 @@ class Order implements OrderInterface
 	protected $rate;
 
 	/**
-	 * @var \Nooe\Connector\Helper\Data
+	 * @var \Tun2U\OrderMigration\Helper\Data
 	 */
 	protected $configData;
 
 	/**
 	 * Order constructor.
 	 *
-	 * @param \Nooe\Connector\Helper\Data $helperData
-	 * @param \Nooe\Connector\Model\Connector $connector
+	 * @param \Tun2U\OrderMigration\Helper\Data $helperData
+	 * @param \Tun2U\OrderMigration\Model\OrderMigration $connector
 	 * @param \Magento\Store\Model\StoreManagerInterface $storeManager
 	 * @param \Magento\Customer\Model\CustomerFactory $customerFactory
 	 * @param \Magento\Quote\Model\QuoteFactory $quote
@@ -87,12 +87,12 @@ class Order implements OrderInterface
 	 * @param \Magento\Catalog\Model\Product $product
 	 * @param \Magento\Quote\Model\QuoteManagement $quoteManagement
 	 * @param \Magento\Quote\Model\Quote\Address\Rate $rate
-	 * @param \Nooe\Connector\Helper\Data $configData
-	 * @param \Nooe\Connector\Logger\Logger $logger
+	 * @param \Tun2U\OrderMigration\Helper\Data $configData
+	 * @param \Tun2U\OrderMigration\Logger\Logger $logger
 	 */
 	public function __construct(
-		\Nooe\Connector\Helper\Data $helperData,
-		\Nooe\Connector\Model\Connector $connector,
+		\Tun2U\OrderMigration\Helper\Data $helperData,
+		\Tun2U\OrderMigration\Model\OrderMigration $connector,
 		\Magento\Store\Model\StoreManagerInterface $storeManager,
 		\Magento\Customer\Model\CustomerFactory $customerFactory,
 		\Magento\Quote\Model\QuoteFactory $quote,
@@ -100,8 +100,8 @@ class Order implements OrderInterface
 		\Magento\Catalog\Model\Product $product,
 		\Magento\Quote\Model\QuoteManagement $quoteManagement,
 		\Magento\Quote\Model\Quote\Address\Rate $rate,
-		\Nooe\Connector\Helper\Data $configData,
-		\Nooe\Connector\Logger\Logger $logger
+		\Tun2U\OrderMigration\Helper\Data $configData,
+		\Tun2U\OrderMigration\Logger\Logger $logger
 	) {
 		$this->helperData = $helperData;
 		$this->connector = $connector;
@@ -162,12 +162,12 @@ class Order implements OrderInterface
 		$quote->getShippingAddress()->addData($orderData['shipping_address']);
 
 		// Collect Rates and Set Shipping & Payment Method
-		$shippingRateCarrier = 'nooe_shipping';
-		$shippingRateCarrierTitle = 'NOOE SHIPPING';
-		$shippingRateCode = 'nooe_shipping';
-		$shippingRateMethod = 'nooe_shipping';
+		$shippingRateCarrier = 'tun2u_shipping';
+		$shippingRateCarrierTitle = 'TUN2U SHIPPING';
+		$shippingRateCode = 'tun2u_shipping';
+		$shippingRateMethod = 'tun2u_shipping';
 		$shippingRatePrice = $orderData['shipping_amount'];
-		$shippingRateMethodTitle = 'NOOE SHIPPING METHOD';
+		$shippingRateMethodTitle = 'TUN2U SHIPPING METHOD';
 
 		$this->rate->setCarrier($shippingRateCarrier);
 		$this->rate->setCarrierTitle($shippingRateCarrierTitle);
@@ -181,12 +181,12 @@ class Order implements OrderInterface
 			->setShippingMethod($shippingRateCode); //shipping method
 		$quote->getShippingAddress()->addShippingRate($this->rate);
 
-		$quote->setPaymentMethod('nooe_payments'); //payment method
+		$quote->setPaymentMethod('tun2u_payments'); //payment method
 		$quote->setInventoryProcessed(false); //not affect inventory
 		$quote->save(); //Now Save quote and your quote is ready
 
 		// Set Sales Order Payment
-		$quote->getPayment()->importData(['method' => 'nooe_payments']);
+		$quote->getPayment()->importData(['method' => 'tun2u_payments']);
 
 		// Collect Totals & Save Quote
 		$quote->collectTotals()->save();
@@ -212,7 +212,7 @@ class Order implements OrderInterface
 			$prefix = (string)$this->configData->getOrderPrefix($storeId);
 			$incrementId = trim($prefix) . $order->getIncrementId();
 			$order->setIncrementId($incrementId);
-			//TODO: valurare se settare la stessa data di NOOE o lasciare la data di inserimento (crea difficoltà nel trovare l'ordine dato l'increment sequenziale che pero non segue la data)
+			//TODO: valurare se settare la stessa data di TUN2U o lasciare la data di inserimento (crea difficoltà nel trovare l'ordine dato l'increment sequenziale che pero non segue la data)
 			//$order->setCreatedAt($orderData['order_date']);
 			$success = $order->save();
 

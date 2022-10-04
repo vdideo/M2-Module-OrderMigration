@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 -->
@@ -12,23 +12,23 @@
 	<type name="Magento\Framework\Console\CommandList">
 		<arguments>
 			<argument name="commands" xsi:type="array">
-				<item name="Nooe_Connector_Sync" xsi:type="object">Nooe\Connector\Console\Command\Sync</item>
+				<item name="Tun2U_OrderMigration_Sync" xsi:type="object">Tun2U\OrderMigration\Console\Command\Sync</item>
 			</argument>
 		</arguments>
 	</type>
 	<type name="Magento\Shipping\Model\Shipping">
-		<plugin disabled="false" name="Nooe_Connector_Model_Shipping" sortOrder="10" type="Nooe\Connector\Plugin\ApplyShipping"/>
+		<plugin disabled="false" name="Tun2U_OrderMigration_Model_Shipping" sortOrder="10" type="Tun2U\OrderMigration\Plugin\ApplyShipping"/>
 	</type>
-	<type name="Nooe\Connector\Logger\Handler">
+	<type name="Tun2U\OrderMigration\Logger\Handler">
 		<arguments>
 			<argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
 		</arguments>
 	</type>
-	<type name="Nooe\Connector\Logger\Logger">
+	<type name="Tun2U\OrderMigration\Logger\Logger">
 		<arguments>
-			<argument name="name" xsi:type="string">NOOELogger</argument>
+			<argument name="name" xsi:type="string">TUN2ULogger</argument>
 			<argument name="handlers" xsi:type="array">
-				<item name="system" xsi:type="object">Nooe\Connector\Logger\Handler</item>
+				<item name="system" xsi:type="object">Tun2U\OrderMigration\Logger\Handler</item>
 			</argument>
 		</arguments>
 	</type>

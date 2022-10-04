@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Helper;
+namespace Tun2U\OrderMigration\Helper;
 
 class Sync
 {
@@ -31,7 +31,7 @@ class Sync
 
 	public function printHeading()
 	{
-		$version = $this->moduleResource->getDbVersion('Nooe_Connector');
+		$version = $this->moduleResource->getDbVersion('Tun2U_OrderMigration');
 
 		echo "_____________________________________________________________________________________\n";
 		echo "  _   _  ___   ___  _____    ____ ___  _   _ _   _ _____ ____ _____ ___  ____  \n";

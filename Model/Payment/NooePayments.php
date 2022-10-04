@@ -1,24 +1,24 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Model\Payment;
+namespace Tun2U\OrderMigration\Model\Payment;
 
-class NooePayments extends \Magento\Payment\Model\Method\AbstractMethod
+class Tun2UPayments extends \Magento\Payment\Model\Method\AbstractMethod
 {
-	const PAYMENT_METHOD_NOOE_CODE = 'nooe_payments';
+	const PAYMENT_METHOD_TUN2U_CODE = 'tun2u_payments';
 	/**
 	 * Payment method code
 	 *
 	 * @var string
 	 */
-	protected $_code = self::PAYMENT_METHOD_NOOE_CODE;
+	protected $_code = self::PAYMENT_METHOD_TUN2U_CODE;
 
 	/**
 	 * Availability option

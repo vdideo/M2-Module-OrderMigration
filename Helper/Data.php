@@ -1,65 +1,65 @@
 <?php
 
 /**
- * @category    Nooe
- * @package     Nooe_Connector
- * @author      NOOE Team <dev@nooestores.com>
- * @copyright   Copyright(c) 2022 NOOE (https://www.nooestores.com)
+ * @category    Tun2U
+ * @package     Tun2U_OrderMigration
+ * @author      Tun2U Team <info@tun2u.com>
+ * @copyright   Copyright(c) 2022 Tun2U (https://www.tun2u.com)
  * @license     https://opensource.org/licenses/gpl-3.0.html GNU General Public License (GPL 3.0)
  */
 
-namespace Nooe\Connector\Helper;
+namespace Tun2U\OrderMigration\Helper;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
 	/**
 	 * XML path for Access Token.
 	 */
-	const ACCESS_TOKEN = 'nooe_connector/settings/access_token';
+	const ACCESS_TOKEN = 'tun2u_order_migration/settings/access_token';
 
 	/**
 	 * XML path for Store Code.
 	 */
-	const STORE_CODE = 'nooe_connector/settings/store_code';
+	const STORE_CODE = 'tun2u_order_migration/settings/store_code';
 
 	/**
 	 * XML path for Start Date. Defines the start date for synchronization.
 	 */
-	const START_DATE = 'nooe_connector/settings/start_date';
+	const START_DATE = 'tun2u_order_migration/settings/start_date';
 
 	/**
 	 * XML path for order Increment ID. Contains the increment id of the last synchronized order.
 	 */
-	const INCREMENT_ID = 'nooe_connector/settings/increment_id';
+	const INCREMENT_ID = 'tun2u_order_migration/settings/increment_id';
 
 	/**
 	 * XML path for Order ID. Contains the ID of the last synchronized order.
 	 */
-	const ORDER_ID = 'nooe_connector/settings/order_id';
+	const ORDER_ID = 'tun2u_order_migration/settings/order_id';
 
 	/**
 	 * XML path for Order Prefix.
 	 * Defines a prefix for 'increment_id' with which orders will be saved during synchronization.
 	 */
-	const ORDER_PREFIX = 'nooe_connector/settings/order_prefix';
+	const ORDER_PREFIX = 'tun2u_order_migration/settings/order_prefix';
 
 	/**
 	 * XML path for Product SKU.
 	 * Defines a product SKU for stock synchronization.
 	 */
-	const PRODUCT_SKU = 'nooe_connector/settings/product_sku';
+	const PRODUCT_SKU = 'tun2u_order_migration/settings/product_sku';
 
 	/**
 	 * XML path for Salable Quantity.
 	 * Get if exist Salable Quantity instead default quantity.
 	 */
-	const SALABLE_QUANTITY = 'nooe_connector/settings/salable_quantity';
+	const SALABLE_QUANTITY = 'tun2u_order_migration/settings/salable_quantity';
 
 	/**
 	 * XML path for Debug Mode.
 	 * Enable the debug mode.
 	 */
-	const DEBUG_MODE = 'nooe_connector/settings/debug_mode';
+	const DEBUG_MODE = 'tun2u_order_migration/settings/debug_mode';
 
 	/**
 	 * @var \Magento\Framework\App\Config\Storage\WriterInterface
